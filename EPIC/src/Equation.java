@@ -122,9 +122,9 @@ public class Equation {
     private String[] clearEmptyEntries(String[] arr) {
         List<String> temp = new ArrayList<String>();
 
-        for (int entry = 0; entry < arr.length; entry++) {
-            if (!(arr[entry].isEmpty())) {
-                temp.add(arr[entry]);
+        for (String entry : arr) {
+            if (!(entry.isEmpty())) {
+                temp.add(entry);
             }
         }
 
