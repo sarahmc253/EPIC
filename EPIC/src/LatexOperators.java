@@ -5,13 +5,13 @@
 import java.util.Arrays;
 
 final class LatexOperators {
-    private static String[] additionOperators = new String[] {"+"};
-    private static String[] subtractionOperators = new String[] {"-"};
-    private static String[] multiplicationOperators = new String[] {"\\times", "\\cdot"};
-    private static String[] divisionOperators = new String[] {"\\div", "\\frac", "\\dfrac"};
-    private static String[] exponentOperators = new String[] {"^"};
+    private static final String[] additionOperators = new String[] {"+"};
+    private static final String[] subtractionOperators = new String[] {"-"};
+    private static final String[] multiplicationOperators = new String[] {"\\times", "\\cdot"};
+    private static final String[] divisionOperators = new String[] {"\\div", "\\frac", "\\dfrac"};
+    private static final String[] exponentOperators = new String[] {"^"};
 
-    public static String[][] operators = new String[][] {
+    public static final String[][] operators = new String[][] {
             additionOperators,
             subtractionOperators,
             multiplicationOperators,
