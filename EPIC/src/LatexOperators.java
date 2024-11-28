@@ -34,15 +34,15 @@ final class LatexOperators {
     /// <param name="op"></param>
     /// <returns></returns>
     public static LatexOperations GetOperatorType(String op) {
-        if (Arrays.stream(operators[0]).anyMatch(op::equals)) {
+        if (Arrays.stream(operators[0]).toList().contains(op)) {
             return LatexOperations.Add;
-        } else if (Arrays.stream(operators[1]).anyMatch(op::equals)) {
+        } else if (Arrays.stream(operators[1]).toList().contains(op)) {
             return LatexOperations.Subtract;
-        } else if (Arrays.stream(operators[2]).anyMatch(op::equals)) {
+        } else if (Arrays.stream(operators[2]).toList().contains(op)) {
             return LatexOperations.Multiply;
-        } else if (Arrays.stream(operators[3]).anyMatch(op::equals)) {
+        } else if (Arrays.stream(operators[3]).toList().contains(op)) {
             return LatexOperations.Divide;
-        } else if (Arrays.stream(operators[4]).anyMatch(op::equals)) {
+        } else if (Arrays.stream(operators[4]).toList().contains(op)) {
             return LatexOperations.Exponent;
         } else {
             return LatexOperations.NaLO;
