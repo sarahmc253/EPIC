@@ -15,7 +15,8 @@ final class LatexOperators {
             additionOperators,
             subtractionOperators,
             multiplicationOperators,
-            divisionOperators
+            divisionOperators,
+            exponentOperators
     };
 
     public enum LatexOperations {
