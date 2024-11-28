@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Equation {
-    private String equationString;
+    private final String equationString;
     private double[] numbers;
     private String[] operators;
     private String sum;
@@ -26,7 +26,6 @@ public class Equation {
     /// Evaluates the equation and sets the sum property to the solution.
     /// </summary>
     private void evaluate() {
-        String output = "";
         Double result = this.numbers[0];
 
         for (int i = 0; i < this.operators.length; i++) {
@@ -124,7 +123,7 @@ public class Equation {
         List<String> temp = new ArrayList<String>();
 
         for (int entry = 0; entry < arr.length; entry++) {
-            if (!(arr[entry].equals(""))) {
+            if (!(arr[entry].isEmpty())) {
                 temp.add(arr[entry]);
             }
         }
