@@ -93,7 +93,7 @@ public class Equation {
     /// <param name="regexPattern"></param>
     /// <returns></returns>
     private String[] getMatches(String equationString, String regexPattern) {
-        List<String> matches = new ArrayList<String>();
+        List<String> matches = new ArrayList<>();
         Pattern pattern = Pattern.compile(regexPattern);
         Matcher matcher = pattern.matcher(equationString);
 
