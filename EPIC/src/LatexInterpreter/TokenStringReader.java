@@ -11,6 +11,7 @@ public class TokenStringReader {
     /// <summary>
     /// Shows the token string readers token string.
     /// </summary>
+    /// <returns></returns>
     public String getTokenString() {
         return this.tokenString;
     }
@@ -18,6 +19,7 @@ public class TokenStringReader {
     /// <summary>
     /// Gets the position of the token string reader.
     /// </summary>
+    /// <returns></returns>
     public int getPosition() {
         return this.i;
     }
@@ -49,6 +51,7 @@ public class TokenStringReader {
     /// <summary>
     /// Shows the next character that is going to be read.
     /// </summary>
+    /// <returns></returns>
     public char peekForward() {
         return this.tokenString.charAt(i);
     }
@@ -56,6 +59,8 @@ public class TokenStringReader {
     /// <summary>
     /// Shows the character that is a select number of places forward.
     ///</summary>
+    /// <param name="offset"></param>
+    /// <returns></returns>
     public char peekForward(int offset) {
         return this.tokenString.charAt(i + offset);
     }
