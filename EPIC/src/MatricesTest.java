@@ -4,7 +4,7 @@ public class MatricesTest {
         double[][] b = {{1, 4}, {5, 2}};
         Matrices matrices = new Matrices();
 
-        int[][] addition = matrices.matrixAddition(a, b);
+        double[][] addition = matrices.matrixAddition(a, b);
         System.out.println("Addition:");
         for (int i = 0; i < addition.length; i++) {
             for (int j = 0; j < addition[i].length; j++) {
@@ -14,7 +14,7 @@ public class MatricesTest {
             System.out.println();
         }
 
-        int[][] subtraction = matrices.matrixSubtraction(a, b);
+        double[][] subtraction = matrices.matrixSubtraction(a, b);
         System.out.println("Subtractions:");
         for (int i = 0; i < subtraction.length; i++) {
             for (int j = 0; j < subtraction[i].length; j++) {
@@ -24,7 +24,7 @@ public class MatricesTest {
             System.out.println();
         }
 
-        int[][] multiplication = matrices.matrixMultiplication(a, b);
+        double[][] multiplication = matrices.matrixMultiplication(a, b);
         System.out.println("Multiplication:");
         for (int i = 0; i < multiplication.length; i++) {
             for (int j = 0; j < multiplication[i].length; j++) {
@@ -34,8 +34,8 @@ public class MatricesTest {
             System.out.println();
         }
 
-        int[][] transpose = matrices.matrixTranspose(b);
-        System.out.println("Transpose:");
+        double[][] transpose = matrices.matrixTranspose(b);
+        System.out.println("transpose:");
         for (int i = 0; i < transpose.length; i++) {
             for (int j = 0; j < transpose[i].length; j++) {
                 System.out.print(transpose[i][j]);
@@ -44,7 +44,7 @@ public class MatricesTest {
             System.out.println();
         }
 
-        int determinant = matrices.matrixDeterminant(b);
+        double determinant = matrices.matrixDeterminant(b);
         System.out.printf("Determinant:%n%d%n", determinant);
 
         double[][] inverse = matrices.matrixInverseTwoByTwo(b);

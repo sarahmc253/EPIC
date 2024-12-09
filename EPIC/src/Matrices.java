@@ -5,7 +5,7 @@ public class Matrices {
         if (a.length != b.length || a[0].length != b[0].length) {
             throw new IllegalArgumentException("Matrices have to have the same dimensions.");
         }
-        
+
         // creating a new 2d array to store the result and setting the
         // dimensions to the same as a and b
         double[][] c = new double[a.length][a[0].length];
@@ -42,9 +42,9 @@ public class Matrices {
 
         double[][] c = new double[a.length][b[0].length];
 
-        for(int i = 0; i < a.length; i++) { // iterating through rows
-            for(int j = 0; j < b[0].length; j++) { // iterating through columns
-                for(int k = 0; k < b.length; k++) { // iterating through shared dimension
+        for (int i = 0; i < a.length; i++) { // iterating through rows
+            for (int j = 0; j < b[0].length; j++) { // iterating through columns
+                for (int k = 0; k < b.length; k++) { // iterating through shared dimension
                     c[i][j] += a[i][k] * b[k][j];
                 }
             }
@@ -56,8 +56,8 @@ public class Matrices {
 
         double[][] c = new double[a[0].length][a.length];
 
-        for(int i = 0; i < a.length; i++) {
-            for(int j = 0; j < a[0].length; j++) {
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
                 c[j][i] = a[i][j];
             }
         }
@@ -84,8 +84,8 @@ public class Matrices {
         double det = 1.0 / matrixDeterminant(a);
 
         c[0][0] = a[1][1] * det;
-        c[0][1] = - a[0][1] * det;
-        c[1][0] = - a[1][0] * det;
+        c[0][1] = -a[0][1] * det;
+        c[1][0] = -a[1][0] * det;
         c[1][1] = a[0][0] * det;
 
         return c;
@@ -96,9 +96,9 @@ public class Matrices {
         try { // try solving using the inverse method for 2x2 matrices
             double[][] inverseA = matrixInverseTwoByTwo(a);
 
-            double[][] c = matrixMultiplication(inverseA, b);
+            double[][] x = matrixMultiplication(inverseA, b);
 
-            return c;
+            return x;
         }
 
         catch (Exception e) { // fallback to LU decomposition for larger matrices
@@ -158,6 +158,48 @@ public class Matrices {
 
             return x;
         }
+    }
 
+
+    public static double dotProduct(double[] a, double[] b) {
+        if (a.length != b.length) {
+            throw new IllegalArgumentException("Vectors must have the same number of elements.");
+        }
+
+        double dotProduct = 0.0;
+        for (int i = 0; i < a.length; i++) {
+            dotProduct += a[i] * b[i];
+        }
+
+        return dotProduct;
+    }
+
+    public static double[] findEigenvalues(double[][] matrix) {
+        if (matrix.length != 2 || matrix[0].length != 2) { // size validation
+            throw new IllegalArgumentException("Matrix must be 2x2.");
+        }
+
+        double a = matrix[0][0]; // extract the matrix elements
+        double b = matrix[0][1];
+        double c = matrix[1][0];
+        double d = matrix[1][1];
+
+        // (a - lambda)(d - lambda) - bc
+        // ad + lambda^2 - (d * lambda) - (a* lambda) - bc
+        // lambda^2 - (a+d)lambda + (ad - bc)
+
+        double quadraticA = 1; // coefficient of lambda squared
+        double quadraticB = -(a+d); // coefficient of lambda
+        double quadraticC = (a * d) - (b * c); // also determinant
+
+
+        double eigenvalue1 = (-quadraticB + Math.sqrt((quadraticB * quadraticB) -
+                (4 * quadraticA * quadraticC))) / (2 * quadraticA);
+        double eigenvalue2 = (-quadraticB - Math.sqrt((quadraticB * quadraticB) -
+                (4 * quadraticA * quadraticC))) / (2 * quadraticA);
+
+        double eigenvalues[] = {eigenvalue1, eigenvalue2};
+
+        return eigenvalues;
     }
 }
