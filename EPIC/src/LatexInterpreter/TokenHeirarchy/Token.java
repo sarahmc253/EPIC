@@ -1,5 +1,7 @@
 package LatexInterpreter.TokenHeirarchy;
 
+import LatexInterpreter.TokenIdentifier;
+
 public class Token {
     public TokenIdentifier.TokenType tokenType;
 
@@ -7,7 +9,7 @@ public class Token {
         this.tokenType = tokenType;
     }
 
-    public getTokenType() {
+    public TokenIdentifier.TokenType getTokenType() {
         return this.tokenType;
     }
 }
