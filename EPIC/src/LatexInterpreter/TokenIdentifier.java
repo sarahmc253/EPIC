@@ -44,9 +44,6 @@ public class TokenIdentifier {
             tokenType = TokenType.RightBracket;
         } else if (isLeftCurlyBracket(tokenStringReader)) {
             tokenType = TokenType.LeftCurlyBracket;
-        } else if (isIdentifier(tokenStringReader)) {
-            tokenType = TokenType.Identifier;
-            jump = 0;
         } else if (isRightCurlyBracket(tokenStringReader)) {
             tokenType = TokenType.RightCurlyBracket;
         } else if (isParameterSeparator(tokenStringReader)) {
@@ -65,6 +62,9 @@ public class TokenIdentifier {
             tokenType = TokenType.PowerOperator;
         } else if (isFactorialOperator(tokenStringReader)) {
             tokenType = TokenType.FactorialOperator;
+        } else if (isIdentifier(tokenStringReader)) {
+            tokenType = TokenType.Identifier;
+            jump = 0;
         }
 
         return new TokenIdentity(tokenType, jump);
@@ -102,6 +102,7 @@ public class TokenIdentifier {
         if (!tokenStringReader.hasNext()) {
             return false;
         }
+
         int lowerNumberBound = 48;
         int upperNumberBound = 57;
         int lowerUpperCaseBound = 65;
@@ -113,7 +114,7 @@ public class TokenIdentifier {
         int nextCharacter = tokenStringReader.peekForward();
         return
                 !(lowerNumberBound <= nextCharacter && nextCharacter <= upperNumberBound) &&
-                        (nextCharacter == '_' ||
+                        (nextCharacter == '_' || nextCharacter == '\\' ||
                                 (lowerLowerCaseBound <= nextCharacter && nextCharacter <= upperLowerCaseBound) ||
                                 (lowerUpperCaseBound <= nextCharacter && nextCharacter <= upperUpperCaseBound));
     }
@@ -131,24 +132,24 @@ public class TokenIdentifier {
     }
 
     private static boolean isMultiplicationOperator(TokenStringReader tokenStringReader) {
-        if (tokenStringReader.hasNext(5)) {
-            String checkString = "";
-
-            for (int i = 0; i < 5; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
-            }
-
-            if (checkString == "\\cdot") {
-                return true;
-            }
-        } else if (tokenStringReader.hasNext(6)) {
+        if (tokenStringReader.hasNext(6)) {
             String checkString = "";
 
             for (int i = 0; i < 6; i++) {
                 checkString = checkString + tokenStringReader.peekForward(i);
             }
 
-            if (checkString == "\\times") {
+            if (checkString.equals("\\times")) {
+                return true;
+            }
+        } else if (tokenStringReader.hasNext(5)) {
+            String checkString = "";
+
+            for (int i = 0; i < 5; i++) {
+                checkString = checkString + tokenStringReader.peekForward(i);
+            }
+
+            if (checkString.equals("\\cdot")) {
                 return true;
             }
         }
@@ -163,7 +164,7 @@ public class TokenIdentifier {
                 checkString = checkString + tokenStringReader.peekForward(i);
             }
 
-            if (checkString == "\\div") {
+            if (checkString.equals("\\div")) {
                 return true;
             }
         }
@@ -180,25 +181,25 @@ public class TokenIdentifier {
     }
 
     private static int getMultiplicationJump(TokenStringReader tokenStringReader) {
-        if (tokenStringReader.hasNext(5)) {
-            String checkString = "";
-
-            for (int i = 0; i < 5; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
-            }
-
-            if (checkString == "\\cdot") {
-                return 5;
-            }
-        } else if (tokenStringReader.hasNext(6)) {
+        if (tokenStringReader.hasNext(6)) {
             String checkString = "";
 
             for (int i = 0; i < 6; i++) {
                 checkString = checkString + tokenStringReader.peekForward(i);
             }
 
-            if (checkString == "\\times") {
+            if (checkString.equals("\\times")) {
                 return 6;
+            }
+        } else if (tokenStringReader.hasNext(5)) {
+            String checkString = "";
+
+            for (int i = 0; i < 5; i++) {
+                checkString = checkString + tokenStringReader.peekForward(i);
+            }
+
+            if (checkString.equals("\\cdot")) {
+                return 5;
             }
         }
 

@@ -29,7 +29,7 @@ public class Lexer {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
-    public TokensContainer Tokenize() {
+    public TokensContainer tokenize() {
         TokensContainer tokenContainer = new TokensContainer();
 
         while (tokenStringReader.hasNext()) {

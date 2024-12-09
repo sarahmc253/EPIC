@@ -27,7 +27,7 @@ public class IdentifierToken extends Token {
 
         return
                 !(lowerNumberBound <= character && character <= upperNumberBound) &&
-                        (character == '_' || (lowerUpperCaseBound <= character && character <= upperUpperCaseBound) ||
+                        (character == '_' || character == '\\' || (lowerUpperCaseBound <= character && character <= upperUpperCaseBound) ||
                                 (lowerLowerCaseBound <= character && character <= upperLowerCaseBound));
     }
 
