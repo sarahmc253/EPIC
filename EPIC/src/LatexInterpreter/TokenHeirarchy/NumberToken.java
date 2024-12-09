@@ -1,3 +1,7 @@
+/*
+ * Cian McNamara, 2024
+ */
+
 package LatexInterpreter.TokenHeirarchy;
 
 import LatexInterpreter.TokenIdentifier;
@@ -15,7 +19,7 @@ public class NumberToken extends Token {
         return '0' <= character && character <= '9';
     }
 
-    public static NumberToken Parse(TokenStringReader tokenStringReader) {
+    public static NumberToken parse(TokenStringReader tokenStringReader) {
         String number = "";
         int character;
         boolean isDecimal = false;
