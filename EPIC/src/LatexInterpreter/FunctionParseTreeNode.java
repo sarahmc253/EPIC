@@ -1,3 +1,7 @@
+/*
+ * Cian McNamara, 2024
+ */
+
 package LatexInterpreter;
 
 import java.util.ArrayList;

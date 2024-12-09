@@ -1,3 +1,7 @@
+/*
+ * Cian McNamara, 2024
+ */
+
 import LatexInterpreter.Lexer;
 import LatexInterpreter.TokenStringReader;
 import LatexInterpreter.TokensContainer;

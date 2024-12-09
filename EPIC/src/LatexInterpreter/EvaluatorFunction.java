@@ -1,6 +1,8 @@
-package LatexInterpreter;
+/*
+ * Cian McNamara, 2024
+ */
 
-import java.util.function.Function;
+package LatexInterpreter;
 
 public class EvaluatorFunction {
     public String name;
