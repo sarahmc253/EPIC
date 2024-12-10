@@ -4,6 +4,9 @@
 
 package LatexInterpreter;
 
+/// <summary>
+/// Class for creating functions in the Evaluator.
+/// </summary>
 public class EvaluatorFunction {
     public String name;
     public int minArgs;

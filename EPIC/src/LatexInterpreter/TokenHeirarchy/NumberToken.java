@@ -56,4 +56,9 @@ public class NumberToken extends Token {
 
         return new NumberToken(Double.parseDouble(number));
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

@@ -10,20 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokensContainer {
+    private List<Token> tokens;
+    private int i;
+
     /// <summary>
     /// Get the list of tokens.
     /// </summary>
-    private List<Token> tokens;
-
-    /// <summary>
-    /// Get the current position in the list.
-    /// </summary>
-    private int i;
-
     public List<Token> getTokens() {
         return this.tokens;
     }
 
+    /// <summary>
+    /// Get the current position in the list.
+    /// </summary>
     public int getPosition() {
         return  this.i;
     }

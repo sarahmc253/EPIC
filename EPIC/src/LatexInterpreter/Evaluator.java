@@ -65,9 +65,9 @@ public class Evaluator {
     /// Adds a function to the list of valid functions.
     /// </summary>
     /// <param name="function"></param>
-    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="IllegalArgumentException"></exception>
     public void addFunction(EvaluatorFunction function) {
-        // If function isnt null it returns function, otherwise it returns the ArgumentNullException.
+        // If function isn't null it returns function, otherwise it returns the ArgumentNullException.
         // ?? is called a nullish coalescing operator.
 
         try {
@@ -82,7 +82,7 @@ public class Evaluator {
     /// </summary>
     /// <param name="node"></param>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private double evaluate(ParseTreeNode node) {
         if (node instanceof LeftOperatorNode) {
             // left operators
@@ -125,7 +125,7 @@ public class Evaluator {
                 throw new RuntimeException("The function '" + name + "' does not exist.");
             }
         } else {
-            // nice one it isnt a number with some operator tacked onto it or a function
+            // nice one it isn't a number with some operator tacked onto it or a function
             if (node.left != null) {
                 // operator
                 double first = evaluate(node.left);

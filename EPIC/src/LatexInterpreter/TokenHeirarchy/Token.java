@@ -13,7 +13,8 @@ public class Token {
         this.tokenType = tokenType;
     }
 
-    public TokenIdentifier.TokenType getTokenType() {
-        return this.tokenType;
+    @Override
+    public String toString() {
+        return tokenType.toString();
     }
 }

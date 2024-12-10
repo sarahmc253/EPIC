@@ -29,11 +29,11 @@ public class Parser {
     }
 
     /// <summary>
-    /// Creates a tree from a root node then calculates them from left to right with the correct grammar rules applied.
+    /// Handles the lowest priority operations (addition and subtraction).
     /// </summary>
     /// <param name="expectBrackets"></param>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private ParseTreeNode expression(boolean expectBrackets) {
         ParseTreeNode node = new ParseTreeNode();
 
@@ -77,10 +77,10 @@ public class Parser {
     }
 
     /// <summary>
-    /// Applies the grammar rules / order of execution to operator terms.
+    /// Handles the 2nd least important operations (multiplication and division).
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private ParseTreeNode term() {
         ParseTreeNode node = new ParseTreeNode();
 
@@ -90,8 +90,7 @@ public class Parser {
 
         node.left = factor();
 
-        if (tokensContainer.hasNext() &&
-                (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
+        if (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
                         tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
             node.token = tokensContainer.forward();
             node.right = factor();
@@ -115,10 +114,11 @@ public class Parser {
     }
 
     /// <summary>
-    /// Applies the grammar rules / order of execution to factors (numbers) and specific operations that may be applied to just that factor.
+    /// Handles the 3rd least important operations (numbers with a minus put before them such as -5,
+    /// factorials such as 5! or powers such as 2^5.).
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private ParseTreeNode factor() {
         ParseTreeNode node = new ParseTreeNode();
 
@@ -169,11 +169,10 @@ public class Parser {
     }
 
     /// <summary>
-    /// Checks if base factors (factors without applied operators) are function calls,
-    /// then applies the appropriate grammar rules / order of execution.
+    /// Handles the most important inputs (individual numbers, brackets and identifiers such as variables or functions).
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private ParseTreeNode factorBase() {
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting token at token " + tokensContainer.getPosition());
@@ -202,7 +201,7 @@ public class Parser {
     /// Applies the appropriate rules to function calls.
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     private ParseTreeNode functionCall() {
         FunctionParseTreeNode node = new FunctionParseTreeNode();
 
@@ -211,6 +210,12 @@ public class Parser {
         }
 
         node.token = tokensContainer.forward();
+
+        if (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.LeftBracket) {
+            throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
+        }
+
+        tokensContainer.forward();
 
         boolean expectClosingBracket = false;
 

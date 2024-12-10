@@ -77,4 +77,9 @@ public class IdentifierToken extends Token {
 
         return new IdentifierToken(identifier);
     }
+
+    @Override
+    public String toString() {
+        return identifier;
+    }
 }

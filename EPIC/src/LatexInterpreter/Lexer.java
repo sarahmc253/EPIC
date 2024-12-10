@@ -28,7 +28,7 @@ public class Lexer {
     /// Tokenizes all the data into their respective TokenTypes and adds them to a TokensContainer.
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="RuntimeException"></exception>
     public TokensContainer tokenize() {
         TokensContainer tokenContainer = new TokensContainer();
 
