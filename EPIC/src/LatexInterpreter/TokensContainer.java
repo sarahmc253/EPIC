@@ -10,15 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TokensContainer {
-    private List<Token> tokens;
+    private final List<Token> tokens;
     private int i;
-
-    /// <summary>
-    /// Get the list of tokens.
-    /// </summary>
-    public List<Token> getTokens() {
-        return this.tokens;
-    }
 
     /// <summary>
     /// Get the current position in the list.
@@ -31,7 +24,7 @@ public class TokensContainer {
     /// Constructor for the TokensContainer class.
     /// </summary>
     public TokensContainer() {
-        this.tokens = new ArrayList<Token>();
+        this.tokens = new ArrayList<>();
     }
 
     /// <summary>

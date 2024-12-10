@@ -7,7 +7,7 @@ package LatexInterpreter;
 /// <summary>
 /// Streamlines returning token identities in 'LatexInterpreter\TokenIdentifier.java'
 /// </summary>
-class TokenIdentity {
+public class TokenIdentity {
     public TokenIdentifier.TokenType tokenType;
     public int jump;
 

@@ -10,15 +10,13 @@ import java.util.HashMap;
 public class Evaluator {
     // delegates are a list of method parameters
     // params are arguments which then get stored as some collection type (like our double array).
-    private double[] args;
-
-    private HashMap<String, Double> variables;
-    private HashMap<String, EvaluatorFunction> functions;
-    private ParseTreeNode root;
+    private final HashMap<String, Double> variables;
+    private final HashMap<String, EvaluatorFunction> functions;
+    private final ParseTreeNode root;
 
     public Evaluator(ParseTreeNode root) {
-        this.variables = new HashMap<String, Double>();
-        this.functions = new HashMap<String, EvaluatorFunction>();
+        this.variables = new HashMap<>();
+        this.functions = new HashMap<>();
         this.root = root;
 
         // Variables
