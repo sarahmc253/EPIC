@@ -10,9 +10,9 @@ package LatexInterpreter;
 public class EvaluatorFunction {
     public String name;
     public int minArgs;
-    public FunctionCallback functionCallback;
+    public IFunctionCallback functionCallback;
 
-    public EvaluatorFunction(String name, int minArgs, FunctionCallback functionCallback) {
+    public EvaluatorFunction(String name, int minArgs, IFunctionCallback functionCallback) {
         this.name = name;
         this.minArgs = minArgs;
         this.functionCallback = functionCallback;
