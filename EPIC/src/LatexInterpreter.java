@@ -6,7 +6,7 @@ import LatexInterpreter.Lexer;
 import LatexInterpreter.TokenStringReader;
 import LatexInterpreter.TokensContainer;
 import LatexInterpreter.Parser;
-import LatexInterpreter.ParseTreeNode;
+import LatexInterpreter.AbstractSyntaxTreeNode;
 import LatexInterpreter.Evaluator;
 
 public class LatexInterpreter {
@@ -17,7 +17,7 @@ public class LatexInterpreter {
         TokensContainer tokensContainer = lexer.tokenize();
 
         Parser parser = new Parser(tokensContainer);
-        ParseTreeNode root = parser.buildParseTree();
+        AbstractSyntaxTreeNode root = parser.buildParseTree();
 
         Evaluator evaluator = new Evaluator(root);
 

@@ -7,6 +7,6 @@ package LatexInterpreter;
 /// <summary>
 /// Acts as an interface for parameters.
 /// </summary>
-public class LeftOperatorNode extends ParseTreeNode {
-    public ParseTreeNode next;
+public class LeftOperatorNode extends AbstractSyntaxTreeNode {
+    public AbstractSyntaxTreeNode next;
 }

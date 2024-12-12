@@ -19,12 +19,12 @@ public class Parser {
     /// Builds the abstract syntax tree.
     /// </summary>
     /// <returns></returns>
-    public ParseTreeNode buildParseTree() {
-        ParseTreeNode root = expression();
+    public AbstractSyntaxTreeNode buildParseTree() {
+        AbstractSyntaxTreeNode root = expression();
         return root;
     }
 
-    private ParseTreeNode expression() {
+    private AbstractSyntaxTreeNode expression() {
         return expression(false);
     }
 
@@ -34,8 +34,8 @@ public class Parser {
     /// <param name="expectBrackets"></param>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private ParseTreeNode expression(boolean expectBrackets) {
-        ParseTreeNode node = new ParseTreeNode();
+    private AbstractSyntaxTreeNode expression(boolean expectBrackets) {
+        AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
         if (tokensContainer.hasNext()) {
             node.left = term();
@@ -50,7 +50,7 @@ public class Parser {
 
             while(tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.AdditionOperator ||
                     tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.SubtractionOperator)) {
-                ParseTreeNode newNode = new ParseTreeNode();
+                AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
                 newNode.token = tokensContainer.forward();
                 newNode.left = node;
@@ -81,8 +81,8 @@ public class Parser {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private ParseTreeNode term() {
-        ParseTreeNode node = new ParseTreeNode();
+    private AbstractSyntaxTreeNode term() {
+        AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting factor at token " + tokensContainer.getPosition());
@@ -97,7 +97,7 @@ public class Parser {
 
             while (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
                     tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
-                ParseTreeNode newNode = new ParseTreeNode();
+                AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
                 newNode.token = tokensContainer.forward();
                 newNode.left = node;
@@ -119,8 +119,8 @@ public class Parser {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private ParseTreeNode factor() {
-        ParseTreeNode node = new ParseTreeNode();
+    private AbstractSyntaxTreeNode factor() {
+        AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting factor base at token " + tokensContainer.getPosition());
@@ -140,7 +140,7 @@ public class Parser {
             node.right = factor();
 
             while (tokensContainer.hasNext() && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.PowerOperator) {
-                ParseTreeNode newNode = new ParseTreeNode();
+                AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
                 newNode.token = tokensContainer.forward();
                 newNode.left = node;
@@ -173,7 +173,7 @@ public class Parser {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private ParseTreeNode factorBase() {
+    private AbstractSyntaxTreeNode factorBase() {
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting token at token " + tokensContainer.getPosition());
         }
@@ -184,7 +184,7 @@ public class Parser {
             return functionCall();
         } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Number ||
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier) {
-            ParseTreeNode outputNode = new ParseTreeNode();
+            AbstractSyntaxTreeNode outputNode = new AbstractSyntaxTreeNode();
 
             outputNode.token = tokensContainer.forward();
 
@@ -202,8 +202,8 @@ public class Parser {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private ParseTreeNode functionCall() {
-        FunctionParseTreeNode node = new FunctionParseTreeNode();
+    private AbstractSyntaxTreeNode functionCall() {
+        FunctionAbstractSyntaxTreeNode node = new FunctionAbstractSyntaxTreeNode();
 
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());

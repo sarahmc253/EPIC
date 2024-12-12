@@ -10,6 +10,6 @@ import java.util.List;
 /// <summary>
 /// Acts as an interface for parameters.
 /// </summary>
-public class FunctionParseTreeNode extends ParseTreeNode {
-    public List<ParseTreeNode> parameters = new ArrayList<ParseTreeNode>();
+public class FunctionAbstractSyntaxTreeNode extends AbstractSyntaxTreeNode {
+    public List<AbstractSyntaxTreeNode> parameters = new ArrayList<AbstractSyntaxTreeNode>();
 }

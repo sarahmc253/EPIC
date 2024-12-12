@@ -10,9 +10,9 @@ import java.util.HashMap;
 public class Evaluator {
     private final HashMap<String, Double> variables;
     private final HashMap<String, EvaluatorFunction> functions;
-    private final ParseTreeNode root;
+    private final AbstractSyntaxTreeNode root;
 
-    public Evaluator(ParseTreeNode root) {
+    public Evaluator(AbstractSyntaxTreeNode root) {
         this.variables = new HashMap<>();
         this.functions = new HashMap<>();
         this.root = root;
@@ -79,7 +79,7 @@ public class Evaluator {
     /// <param name="node"></param>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private double evaluate(ParseTreeNode node) {
+    private double evaluate(AbstractSyntaxTreeNode node) {
         if (node instanceof LeftOperatorNode) {
             // left operators
             if (node.token.tokenType == TokenIdentifier.TokenType.SubtractionOperator) {
@@ -96,10 +96,10 @@ public class Evaluator {
 
                 return newValue;
             }
-        } else if (node instanceof FunctionParseTreeNode) {
+        } else if (node instanceof FunctionAbstractSyntaxTreeNode) {
             // function
             // sets up the function node and gets the name
-            FunctionParseTreeNode functionNode = (FunctionParseTreeNode)node;
+            FunctionAbstractSyntaxTreeNode functionNode = (FunctionAbstractSyntaxTreeNode)node;
             String name = ((IdentifierToken)functionNode.token).identifier;
 
             // checks if the function exists

@@ -9,8 +9,8 @@ import LatexInterpreter.TokenHeirarchy.Token;
 /// <summary>
 /// Template class used to assist in parsing AST nodes.
 /// </summary>
-public class ParseTreeNode {
-    public ParseTreeNode left;
-    public ParseTreeNode right;
+public class AbstractSyntaxTreeNode {
+    public AbstractSyntaxTreeNode left;
+    public AbstractSyntaxTreeNode right;
     public Token token;
 }
