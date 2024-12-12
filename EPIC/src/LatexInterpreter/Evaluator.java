@@ -8,8 +8,6 @@ import LatexInterpreter.TokenHeirarchy.*;
 import java.util.HashMap;
 
 public class Evaluator {
-    // delegates are a list of method parameters
-    // params are arguments which then get stored as some collection type (like our double array).
     private final HashMap<String, Double> variables;
     private final HashMap<String, EvaluatorFunction> functions;
     private final ParseTreeNode root;
