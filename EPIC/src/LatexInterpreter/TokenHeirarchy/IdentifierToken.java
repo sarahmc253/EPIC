@@ -44,7 +44,7 @@ public class IdentifierToken extends Token {
         return (lowerNumberBound <= character && character <= upperNumberBound) ||
                 character == '_' ||
                 (lowerUpperCaseBound <= character && character <= upperUpperCaseBound) ||
-                (lowerLowerCaseBound < character && character <= upperLowerCaseBound);
+                (lowerLowerCaseBound <= character && character <= upperLowerCaseBound);
     }
 
     public static IdentifierToken Parse(TokenStringReader tokenStringReader) {

@@ -23,10 +23,7 @@ public class TokenIdentifier {
     }
 
     /// <summary>
-    /// Outputs the token type and an integer of how far forward we need to jump in the count.
-    /// Can be assigned to variables by doing:
-    ///     (TokenIdentifier.TokenType foo, int bar) = TokenIdentifier.Identify(tokenStringReader);
-    /// </summary>
+    /// Outputs the token type and an integer of how far forward we need to jump in the count via a TokenIdentity class.
     /// <param name="tokenStringReader"></param>
     /// <returns></returns>
     public static TokenIdentity identify(TokenStringReader tokenStringReader) {

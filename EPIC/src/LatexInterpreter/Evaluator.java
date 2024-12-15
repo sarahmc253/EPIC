@@ -44,8 +44,13 @@ public class Evaluator {
         addFunction(new EvaluatorFunction("log", 1, number -> Math.log(number[0])));
         // ln(x)
         addFunction(new EvaluatorFunction("ln", 1, number -> Math.log(number[0])));
-        // sqrt(x)
-        addFunction(new EvaluatorFunction("sqrt", 1, number -> Math.sqrt(number[0])));
+
+        // LaTeX Functions
+        // \sqrt{x}
+        addFunction(new EvaluatorFunction("\\sqrt", 1, number -> Math.sqrt(number[0])));
+        // \frac{x}{y}
+        addFunction(new EvaluatorFunction("\\frac", 2, number -> number[0] / number[1]));
+
     }
 
     /// <summary>
@@ -63,9 +68,6 @@ public class Evaluator {
     /// <param name="function"></param>
     /// <exception cref="IllegalArgumentException"></exception>
     public void addFunction(EvaluatorFunction function) {
-        // If function isn't null it returns function, otherwise it returns the ArgumentNullException.
-        // ?? is called a nullish coalescing operator.
-
         try {
             functions.put(function.name, function);
         } catch(Exception e) {
@@ -105,7 +107,7 @@ public class Evaluator {
             // checks if the function exists
             if (functions.containsKey(name)) {
                 if (functionNode.parameters.size() < functions.get(name).minArgs) {
-                    throw new RuntimeException("The function" + name + " needs at least " + functions.get(name).minArgs + "argument(s).");
+                    throw new RuntimeException("The function " + name + " needs at least " + functions.get(name).minArgs + " argument(s).");
                 }
 
                 double[] parameterValues = new double[functionNode.parameters.size()];
@@ -127,6 +129,7 @@ public class Evaluator {
                 double first = evaluate(node.left);
                 double second = evaluate(node.right);
 
+                // TODO: add checking for matrices then choose the correct operation
                 switch (node.token.tokenType) {
                     case TokenIdentifier.TokenType.AdditionOperator:
                         return first + second;
