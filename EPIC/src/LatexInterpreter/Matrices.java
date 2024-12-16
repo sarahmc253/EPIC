@@ -2,7 +2,7 @@ package LatexInterpreter;
 
 public class Matrices {
 
-    public double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
+    public static double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
 
         if (a.length != b.length || a[0].length != b[0].length) {
             throw new IllegalArgumentException("LatexInterpreter.Matrices have to have the same dimensions.");
@@ -20,7 +20,7 @@ public class Matrices {
         return c;
     }
 
-    public double[][] matrixSubtraction(double[][] a, double[][] b) { // method to subtract two matrices
+    public static double[][] matrixSubtraction(double[][] a, double[][] b) { // method to subtract two matrices
 
         if (a.length != b.length || a[0].length != b[0].length) {
             throw new IllegalArgumentException("LatexInterpreter.Matrices have to have the same dimensions.");
@@ -36,7 +36,7 @@ public class Matrices {
         return c;
     }
 
-    public double[][] matrixMultiplication(double[][] a, double[][] b) {
+    public static double[][] matrixMultiplication(double[][] a, double[][] b) {
 
         if (a[0].length != b.length) {
             throw new IllegalArgumentException("The columns in matrix a must equal the rows in matrix b");
@@ -54,7 +54,7 @@ public class Matrices {
         return c;
     }
 
-    public double[][] matrixTranspose(double[][] a) {
+    public static double[][] matrixTranspose(double[][] a) {
 
         double[][] c = new double[a[0].length][a.length];
 
@@ -66,7 +66,7 @@ public class Matrices {
         return c;
     }
 
-    public double matrixDeterminant(double[][] a) {
+    public static double matrixDeterminant(double[][] a) {
         if (a.length != 2 || a[0].length != 2 || a[1].length != 2) {
             throw new IllegalArgumentException("Matrix must be a 2 x 2.");
         }
@@ -76,7 +76,7 @@ public class Matrices {
         return c;
     }
 
-    public double[][] matrixInverseTwoByTwo(double[][] a) {
+    public static double[][] matrixInverseTwoByTwo(double[][] a) {
         if (a.length != 2 || a[0].length != 2 || a[1].length != 2) {
             throw new IllegalArgumentException("Matrix must be a 2 x 2.");
         }
@@ -93,7 +93,7 @@ public class Matrices {
         return c;
     }
 
-    public double[][] matrixLinearEquation(double[][] a, double[][] b) {
+    public static double[][] matrixLinearEquation(double[][] a, double[][] b) {
 
         try { // try solving using the inverse method for 2x2 matrices
             double[][] inverseA = matrixInverseTwoByTwo(a);
@@ -205,7 +205,7 @@ public class Matrices {
         return eigenvalues;
     }
 
-    public String toString(double[][] matrix) {
+    public static String toString(double[][] matrix) {
         String string = "";
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
