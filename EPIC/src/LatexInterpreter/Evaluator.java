@@ -44,6 +44,10 @@ public class Evaluator {
         addFunction(new EvaluatorFunction("log", 1, number -> Math.log(number[0])));
         // ln(x)
         addFunction(new EvaluatorFunction("ln", 1, number -> Math.log(number[0])));
+        // createMatrix(squareDimensionSize, x0y0, x..y.., xxyy)
+        /*addFunction(new EvaluatorFunction("createMatrix", 2, number -> {
+            int size = (int)number[0];
+        }));*/
 
         // LaTeX Functions
         // \sqrt{x}

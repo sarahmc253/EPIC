@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import LatexInterpreter.Matrices;
 
 public class MatricesTest {
     public static void main(String[] args) {
