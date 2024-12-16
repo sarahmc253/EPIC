@@ -207,7 +207,7 @@ public class Matrices {
         String string = "";
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                string = string + matrix[i][j] + "";
+                string = string + matrix[i][j] + " ";
             }
             string = string + "\n";
         }
