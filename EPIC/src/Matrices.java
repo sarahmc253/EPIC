@@ -202,4 +202,15 @@ public class Matrices {
 
         return eigenvalues;
     }
+
+    public String toString(double[][] matrix) {
+        String string = "";
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                string = string + matrix[i][j] + "";
+            }
+            string = string + "\n";
+        }
+        return string;
+    }
 }
