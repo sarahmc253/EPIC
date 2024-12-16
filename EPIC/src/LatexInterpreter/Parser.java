@@ -247,13 +247,12 @@ public class Parser {
                     return node;
                 }
 
-                if (expectClosingBracket && tokensContainer.hasNext(2)) {
-                    if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightCurlyBracket &&
-                            tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftCurlyBracket) {
-                        tokensContainer.forward();
-                        tokensContainer.forward();
-                        expectClosingBracket = false;
-                    }
+                if (expectClosingBracket && tokensContainer.hasNext(2) &&
+                        (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightCurlyBracket &&
+                        tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftCurlyBracket)) {
+                    tokensContainer.forward();
+                    tokensContainer.forward();
+                    expectClosingBracket = false;
                 } else {
                     node.parameters.add(expression());
                     expectClosingBracket = true;
