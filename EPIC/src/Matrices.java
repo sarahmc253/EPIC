@@ -2,9 +2,7 @@ public class Matrices {
 
     public static double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
 
-        if (a.length != b.length || a[0].length != b[0].length) {
-            throw new IllegalArgumentException("Matrices have to have the same dimensions.");
-        }
+        validateMatrix(a, b);
 
         // creating a new 2d array to store the result and setting the
         // dimensions to the same as a and b
@@ -20,9 +18,7 @@ public class Matrices {
 
     public static double[][] matrixSubtraction(double[][] a, double[][] b) { // method to subtract two matrices
 
-        if (a.length != b.length || a[0].length != b[0].length) {
-            throw new IllegalArgumentException("Matrices have to have the same dimensions.");
-        }
+        validateMatrix(a,b);
 
         double[][] c = new double[a.length][a[0].length];
 
@@ -36,6 +32,9 @@ public class Matrices {
 
     public static double[][] matrixMultiplication(double[][] a, double[][] b) {
 
+        if (a == null || b == null) {
+            throw new IllegalArgumentException("Matrices can't be null");
+        }
         if (a[0].length != b.length) {
             throw new IllegalArgumentException("The columns in matrix a must equal the rows in matrix b");
         }
@@ -54,6 +53,13 @@ public class Matrices {
 
     public static double[][] matrixTranspose(double[][] a) {
 
+        if (a == null) {
+            throw new IllegalArgumentException("Matrix can't be null.");
+        }
+        if (!isRectangular(a)) {
+            throw new IllegalArgumentException("Matrix must be rectangular.");
+        }
+
         double[][] c = new double[a[0].length][a.length];
 
         for (int i = 0; i < a.length; i++) {
@@ -65,8 +71,14 @@ public class Matrices {
     }
 
     public static double matrixDeterminant(double[][] a) {
-        if (a.length != 2 || a[0].length != 2 || a[1].length != 2) {
-            throw new IllegalArgumentException("Matrix must be a 2 x 2.");
+        if (a == null) {
+            throw new IllegalArgumentException("Matrix can't be null.");
+        }
+        if (!isRectangular(a)) {
+            throw new IllegalArgumentException("Matrix must be rectangular.");
+        }
+        if (a.length != 2 || a[0].length != 2) {
+            throw new IllegalArgumentException("Matrix must be 2 x 2.");
         }
 
         double c = (a[0][0] * a[1][1]) - (a[0][1] * a[1][0]);
@@ -75,13 +87,18 @@ public class Matrices {
     }
 
     public static double[][] matrixInverseTwoByTwo(double[][] a) {
-        if (a.length != 2 || a[0].length != 2 || a[1].length != 2) {
+        if (a.length != 2 || a[0].length != 2) {
             throw new IllegalArgumentException("Matrix must be a 2 x 2.");
         }
 
         double[][] c = new double[2][2];
 
-        double det = 1.0 / matrixDeterminant(a);
+        double det = matrixDeterminant(a);
+        if (det == 0) {
+            throw new ArithmeticException("Matrix is singular and cannot be inverted.");
+        }
+
+        det = 1 / det;
 
         c[0][0] = a[1][1] * det;
         c[0][1] = -a[0][1] * det;
@@ -162,6 +179,9 @@ public class Matrices {
 
 
     public static double dotProduct(double[] a, double[] b) {
+        if (a == null || b == null) {
+            throw new IllegalArgumentException("Vectors cannot be null.");
+        }
         if (a.length != b.length) {
             throw new IllegalArgumentException("Vectors must have the same number of elements.");
         }
@@ -190,11 +210,20 @@ public class Matrices {
 
         double quadraticA = 1; // coefficient of lambda squared
         double quadraticB = -(a+d); // coefficient of lambda
-        double quadraticC = (a * d) - (b * c); // also determinant
+        double quadraticC = (a * d) - (b * c);
+
+        double discriminant = (quadraticB * quadraticB) - (4 * quadraticA * quadraticC);
+        if (discriminant < 0) {
+            throw new IllegalArgumentException("This method does not handle complex roots");
+        }
+
+        if (quadraticC < 0) {
+            throw new IllegalArgumentException("Eigenvalues are complex, this method does not handle complex problems.");
+        }
 
 
         double eigenvalue1 = (-quadraticB + Math.sqrt((quadraticB * quadraticB) -
-                (4 * quadraticA * quadraticC))) / (2 * quadraticA);
+                (4 * quadraticA * quadraticC))) / (2 * quadraticA); // basically minus b formula
         double eigenvalue2 = (-quadraticB - Math.sqrt((quadraticB * quadraticB) -
                 (4 * quadraticA * quadraticC))) / (2 * quadraticA);
 
@@ -212,5 +241,27 @@ public class Matrices {
             string = string + "\n";
         }
         return string;
+    }
+
+    private static boolean isRectangular(double[][] matrix) {
+        int columns = matrix[0].length;
+        for (double[] row : matrix) {
+            if (row.length != columns) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static void validateMatrix(double[][] a, double[][] b) {
+        if (a == null || b == null) {
+            throw new IllegalArgumentException("Input matrices cannot be null.");
+        }
+        if (!isRectangular(a) || !isRectangular(b)) {
+            throw new IllegalArgumentException("Matrices must be rectangular.");
+        }
+        if (a.length != b.length || a[0].length != b[0].length) {
+            throw new IllegalArgumentException("Matrices must have the same dimensions.");
+        }
     }
 }
