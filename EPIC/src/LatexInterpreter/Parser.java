@@ -25,7 +25,7 @@ public class Parser {
     }
 
     private AbstractSyntaxTreeNode expression() {
-        return expression(false, false);
+        return expression(false);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class Parser {
     /// <param name="expectBrackets"></param>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private AbstractSyntaxTreeNode expression(boolean expectBrackets, boolean expectCurlyBrackets) {
+    private AbstractSyntaxTreeNode expression(boolean expectBrackets) {
         AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
         if (tokensContainer.hasNext()) {
@@ -60,19 +60,12 @@ public class Parser {
             }
         }
 
-        if (expectBrackets && (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.RightBracket)) {
+        if (expectBrackets &&
+                (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.RightBracket)) {
             throw new RuntimeException("Syntax error: Expecting ')' at token " + tokensContainer.getPosition());
         } else if (expectBrackets &&
                 tokensContainer.hasNext() &&
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightBracket) {
-            tokensContainer.forward();
-        }
-
-        if (expectCurlyBrackets && (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.RightCurlyBracket)) {
-            throw new RuntimeException("Syntax error: Expecting '}' at token " + tokensContainer.getPosition());
-        } else if (expectCurlyBrackets &&
-                tokensContainer.hasNext() &&
-                tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightCurlyBracket) {
             tokensContainer.forward();
         }
 
@@ -98,7 +91,7 @@ public class Parser {
         node.left = factor();
 
         if (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
-                        tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
+                tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
             node.token = tokensContainer.forward();
             node.right = factor();
 
@@ -186,12 +179,9 @@ public class Parser {
         }
 
         if (tokensContainer.hasNext(2) &&
-                (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier &&
-                        tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftBracket)) {
-            return functionCall(false);
-        } else if ((tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier &&
-                tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftCurlyBracket)) {
-            return functionCall(true);
+                tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier &&
+                tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftBracket) {
+            return functionCall();
         } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Number ||
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier) {
             AbstractSyntaxTreeNode outputNode = new AbstractSyntaxTreeNode();
@@ -201,10 +191,7 @@ public class Parser {
             return outputNode;
         } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.LeftBracket) {
             tokensContainer.forward();
-            return expression(true, false);
-        } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.LeftCurlyBracket) {
-            tokensContainer.forward();
-            return  expression(false, true);
+            return expression(true);
         }
 
         throw new RuntimeException("Syntax error: Expecting number, expression, function call or constant at token " + tokensContainer.getPosition());
@@ -215,7 +202,7 @@ public class Parser {
     /// </summary>
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
-    private AbstractSyntaxTreeNode functionCall(boolean isLatexFunction) {
+    private AbstractSyntaxTreeNode functionCall() {
         FunctionAbstractSyntaxTreeNode node = new FunctionAbstractSyntaxTreeNode();
 
         if (!tokensContainer.hasNext()) {
@@ -224,59 +211,29 @@ public class Parser {
 
         node.token = tokensContainer.forward();
 
-        if (isLatexFunction) {
-            if (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.LeftCurlyBracket) {
-                throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
-            }
-        } else {
-            if (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.LeftBracket) {
-                throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
-            }
+        if (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.LeftBracket) {
+            throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
         }
 
         tokensContainer.forward();
 
         boolean expectClosingBracket = false;
 
-        if (isLatexFunction) {
-            while (tokensContainer.hasNext()) {
-                if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightCurlyBracket &&
-                        !(tokensContainer.hasNext(2) ||
-                                (tokensContainer.hasNext(2) && tokensContainer.peekForward(1).tokenType != TokenIdentifier.TokenType.LeftCurlyBracket))) {
-                    tokensContainer.forward();
-                    return node;
-                }
-
-                if (expectClosingBracket && tokensContainer.hasNext(2) &&
-                        (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightCurlyBracket &&
-                        tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftCurlyBracket)) {
-                    tokensContainer.forward();
-                    tokensContainer.forward();
-                    expectClosingBracket = false;
-                } else {
-                    node.parameters.add(expression());
-                    expectClosingBracket = true;
-                }
+        while (tokensContainer.hasNext()) {
+            if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightBracket) {
+                tokensContainer.forward();
+                return node;
             }
 
-            throw new RuntimeException("Syntax error: Expecting function end '}' at token " + tokensContainer.getPosition());
-        } else {
-            while (tokensContainer.hasNext()) {
-                if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightBracket) {
-                    tokensContainer.forward();
-                    return node;
-                }
-
-                if (expectClosingBracket && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.ParameterSeparator) {
-                    tokensContainer.forward();
-                    expectClosingBracket = false;
-                } else {
-                    node.parameters.add(expression());
-                    expectClosingBracket = true;
-                }
+            if (expectClosingBracket && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.ParameterSeparator) {
+                tokensContainer.forward();
+                expectClosingBracket = false;
+            } else {
+                node.parameters.add(expression());
+                expectClosingBracket = true;
             }
-
-            throw new RuntimeException("Syntax error: Expecting function end ')' at token " + tokensContainer.getPosition());
         }
+
+        throw new RuntimeException("Syntax error: Expecting function end ')' at token " + tokensContainer.getPosition());
     }
 }
