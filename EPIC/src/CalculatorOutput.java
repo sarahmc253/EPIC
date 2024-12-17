@@ -104,8 +104,9 @@ public class CalculatorOutput {
         int converter = input.nextInt();
         System.out.println("Enter amount: ");
         String amount = input.next();
+
         if(converter == 1){
-            hexConversion.decimal(Integer.parseInt(amount));
+            hexConversion.decimal(amount);
         }else if(converter == 2){
             hexConversion.binary(amount);
         }else if(converter == 3){
