@@ -1,11 +1,9 @@
-package LatexInterpreter;
-
 public class Matrices {
 
     public static double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
 
         if (a.length != b.length || a[0].length != b[0].length) {
-            throw new IllegalArgumentException("LatexInterpreter.Matrices have to have the same dimensions.");
+            throw new IllegalArgumentException("Matrices have to have the same dimensions.");
         }
 
         // creating a new 2d array to store the result and setting the
@@ -23,7 +21,7 @@ public class Matrices {
     public static double[][] matrixSubtraction(double[][] a, double[][] b) { // method to subtract two matrices
 
         if (a.length != b.length || a[0].length != b[0].length) {
-            throw new IllegalArgumentException("LatexInterpreter.Matrices have to have the same dimensions.");
+            throw new IllegalArgumentException("Matrices have to have the same dimensions.");
         }
 
         double[][] c = new double[a.length][a[0].length];
