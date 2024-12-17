@@ -1,93 +1,100 @@
 public class HexConversion {
 
+    // method for when user wants to convert a decimal number into binary and hexadecimal
     public void decimal(String decimal) {
+        // string builder to contain the binary output
         StringBuilder binary = new StringBuilder();
 
-        int decimalInt;
+        // string to contain hexadecimal output
         String hex;
+
+        // check if inputted string is a double or integer
         if (decimal.contains(".")) {
+            // convert to hexadecimal
             hex = Double.toHexString(Double.parseDouble(decimal));
+
+            // split double into integer part and fractional part
+            // this allows them to be dealt with separately
             String[] doubleParts = decimal.split("\\.");
 
-            int partOne = Integer.parseInt(doubleParts[0]);
-            double partTwo = Math.abs(Double.parseDouble(decimal) - partOne);
+            // store integer part in a variable
+            int integerPart = Integer.parseInt(doubleParts[0]);
+            // subtract integer part from input amount to get fractional part
+            double fractionalPart = Math.abs(Double.parseDouble(decimal) - integerPart);
 
-            if (partOne < 0) {
-                binary.insert(0, "-");
-            }
-            while (partOne != 0) {
-                int remainder = partOne % 2;
-                if (remainder == -1) {
-                    remainder = 1;
-                }
-                binary.insert(0, remainder);
-                partOne = partOne / 2;
+            //calculate integerPart in binary
+            while (integerPart != 0) {
+                int remainder = integerPart % 2;    // calculate number in binary using divide by 2 method
+                binary.insert(0, Math.abs(remainder)); // insert either 1 or 0 at the start of the string, depending on the remainder
+                integerPart = integerPart / 2;  // divide by two for the next iteration
             }
 
-            binary.append(".");
+            binary.append(".");     // add a decimal point between the integer and fractional parts
 
-            for (int i = 0; i < 10; i++) {
-                partTwo *= 2;
-                if (partTwo > 1) {
+            // calculate to 16 decimal places
+            for (int i = 0; i < 16; i++) {
+                fractionalPart *= 2;    // multiply fractional part by two
+                if (fractionalPart > 1) {   // if it is greater than 1, append 1 to the string builder
                     binary.append("1");
-                    partTwo -= 1;
+                    fractionalPart -= 1;    // subtract 1 for the next iteration
                 } else {
-                    binary.append("0");
+                    binary.append("0");     // if it is not greater than 1, append 0 to the string builder
 
                 }
 
             }
 
+        //if string is an integer
         } else {
-            hex = Integer.toHexString(Integer.parseInt(decimal));
-            decimalInt = Integer.parseInt(decimal);
+            int decimalInt = Integer.parseInt(decimal);     // convert input string to int
+            hex = Integer.toHexString(decimalInt);   // convert to hexadecimal
 
-            if (decimalInt < 0) {
-                System.out.print("-");
-            }
             while (decimalInt != 0) {
-                int remainder = decimalInt % 2;
-                if (remainder == -1) {
-                    remainder = 1;
-                }
-                binary.insert(0, remainder);
-                decimalInt = decimalInt / 2;
+                int remainder = decimalInt % 2;     // convert to binary using the divide by 2 method
+                binary.insert(0, Math.abs(remainder));
+                decimalInt = decimalInt / 2;    // divide by two for the next iteration
             }
         }
 
+        // add minus sign if input is negative
+        if(Double.parseDouble(decimal) < 1){
+            binary.insert(0, "-");
+        }
 
-
+        // output results
         System.out.println("In binary: " + binary);
         System.out.println("In hexadecimal: " + hex);
     }
 
-
+    // method used when user wants to convert a binary number to decimal and hexadecimal
     public void binary(String binary){
 
-        int inDecimal = Integer.parseInt(binary, 2);
-        String inHex = Integer.toHexString(inDecimal);
+        int inDecimal = Integer.parseInt(binary, 2);    // convert to decimal
+        String inHex = Integer.toHexString(inDecimal);      // convert to hexadecimal
 
+        // print results
         System.out.println("In decimal: " + inDecimal);
         System.out.println("In hexadecimal: " + inHex);
     }
 
+    // method used when user wants to convert a hexadecimal number to decimal and binary
     public void hex(String hex){
-        int decimal = Integer.parseInt(hex, 16);
-        int inDecimal = decimal;
-        StringBuilder binary = new StringBuilder();
+        int decimal = Integer.parseInt(hex, 16);    // convert to decimal
+        int inDecimal = decimal;    // save decimal value for printing
+        StringBuilder binary = new StringBuilder();     // string builder to contain binary output
 
-        if(decimal < 0){
-            System.out.print("-");
-        }
         while (decimal != 0){
-            int remainder = decimal % 2;
-            if (remainder == -1){
-                remainder = 1;
-            }
-            binary.insert(0, remainder);
-            decimal = decimal /2;
+            int remainder = decimal % 2;    // convert to binary using divide by 2 method
+
+            binary.insert(0, Math.abs(remainder));  //  add remainder to binary string builder
+            decimal = decimal /2;   // divide by 2 for the next iteration
         }
 
+        if(inDecimal < 1){
+            binary.insert(0, "-");  // add minus sign if input is negative
+        }
+
+        // print results
         System.out.println("Decimal: " + inDecimal);
         System.out.println("Binary: " + binary);
     }

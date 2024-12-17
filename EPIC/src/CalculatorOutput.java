@@ -1,9 +1,12 @@
 import java.util.Scanner;
 
 public class CalculatorOutput {
+
+    // instances of all relevant classes
+    // this class inherits by composition
     Scanner input = new Scanner(System.in);
     CalculateUnits calculateUnits = new CalculateUnits();
-    ImperialCalculator imperialCalculator;
+    ImperialCalculator imperialCalculator;  // this variable is not initialised to allow polymorphic implementation
     Volume volume = new Volume();
     Mass mass = new Mass();
     Length length = new Length();
@@ -11,8 +14,8 @@ public class CalculatorOutput {
     double result;
 
 
-
-    String metricUnitsList(String currentUnit, String abbreviation) {
+    // list of metric units displayed to user
+    private String metricUnitsList(String currentUnit, String abbreviation) {
 
         return ("1: Milli" + currentUnit + " (m" + abbreviation + ") \n" +
                 "2: Centi" + currentUnit + " (c" + abbreviation + ") \n" +
@@ -23,19 +26,23 @@ public class CalculatorOutput {
                 "7: Kilo" + currentUnit + "(k" + abbreviation + ") \n");
     }
 
+    // intro displayed to user
+    // user chooses between base or unit  conversion
     public void intro(){
         System.out.println("Enter 1 for base conversion or 2 for unit conversion:");
         int baseOrUnit = input.nextInt();
+        // relevant methods are called based on user input
         if(baseOrUnit == 1){
             baseConversion();
         }else if(baseOrUnit == 2){
-            unitIntro();
+            unitChoice();
             determineCalculator();
             determineInputs(takeInputs());
         }
     }
 
-    public void unitIntro() {
+    // method allowing user to choose which units to convert
+    public void unitChoice() {
         System.out.println("Enter number corresponding to what you would like to convert:");
         System.out.println("""
                 1: Volume\s
@@ -43,9 +50,11 @@ public class CalculatorOutput {
                 3: Length""");
     }
 
+    // determines which unit calculator to use based on user input
     public void determineCalculator(){
         int converter = input.nextInt();
 
+        // object of the selected calculator is assigned to the imperialCalculator variable
         imperialCalculator = switch (converter){
             case 1 -> new ImperialCalculator(volume.imperialUnitsList, volume.imperialConversionRate, volume.metricToImperialRate, volume.imperialToMetricRate, volume.metricUnit, volume.metricAbbreviation);
             case 2 -> new ImperialCalculator(mass.imperialUnitsList, mass.imperialConversionRate, mass.metricToImperialRate, mass.imperialToMetricRate, mass.metricUnit, mass.metricAbbreviation);
@@ -54,33 +63,49 @@ public class CalculatorOutput {
         };
     }
 
-    public int[] takeInputs(){
+    // method to allow user to input units and value to be converted
+    public double[] takeInputs(){
+        // prints metric units list with relevant units
         System.out.println(metricUnitsList(imperialCalculator.metricUnit, imperialCalculator.metricAbbreviation));
+        // prints relevant imperial units list
         System.out.println(imperialCalculator.imperialUnitsList);
 
         int convertFrom = 0;
+        int convertTo = 0;
+        double amount = 0;
 
+        // exception handling for invalid values
         try {
+            // store unit to be converted from
             System.out.println("Convert From: ");
             convertFrom = input.nextInt();
         } catch (Exception e){
             System.out.println("Invalid value");
         }
 
-        System.out.println("Convert To:");
-        int convertTo = input.nextInt();
+        try {
+            // store unit to be converted to
+            System.out.println("Convert To:");
+            convertTo = input.nextInt();
 
-        System.out.println("Enter amount to be converted: ");
-        int amount = input.nextInt();
+            // store amount to be converted
+            System.out.println("Enter amount to be converted: ");
+            amount = input.nextDouble();
+        } catch (Exception e){
+            System.out.println("Invalid value");
+        }
 
-        return new int[]{convertFrom, convertTo, amount};
+        // return inputted values
+        return new double[]{convertFrom, convertTo, amount};
     }
 
-    public void determineInputs(int[] inputs){
-        int convertFrom = inputs[0];
-        int convertTo = inputs[1];
-        int amount = inputs[2];
+    // method to determine if the inputs refer to metric or imperial
+    public void determineInputs(double[] inputs){
+        int convertFrom = (int) inputs[0];
+        int convertTo = (int) inputs[1];
+        double amount = inputs[2];
 
+        // calls relevant method and stores result of calculation
         if(convertFrom <= 7 && convertTo <= 7){
             result = calculateUnits.metricToMetric(convertFrom, convertTo, amount);
         }else if(convertFrom > 7 && convertTo > 7){
@@ -91,20 +116,25 @@ public class CalculatorOutput {
             result = calculateUnits.imperialToMetric(convertFrom, convertTo, amount, imperialCalculator.imperialConversionRate, imperialCalculator.imperialToMetricRate);
         }
 
+        // print result of calculation
         System.out.println(result);
     }
 
+    // method called if user chooses base conversion
     public void baseConversion(){
+        // options displayed to user
         System.out.println("""
                             Convert from:
                             1: Decimal
                             2: Binary
                             3: Hexadecimal""");
-
         int converter = input.nextInt();
+
+        // store amount as a string
         System.out.println("Enter amount: ");
         String amount = input.next();
 
+        // calls relevant method depending on user's input
         if(converter == 1){
             hexConversion.decimal(amount);
         }else if(converter == 2){
