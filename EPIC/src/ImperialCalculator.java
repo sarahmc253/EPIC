@@ -1,4 +1,4 @@
-public class ImperialCaluclator {
+public class ImperialCalculator {
 
     public String imperialUnitsList;
     public double[] imperialConversionRate;
@@ -9,7 +9,7 @@ public class ImperialCaluclator {
     String metricUnit;
     String metricAbbreviation;
 
-    public ImperialCaluclator(String imperialUnitsList, double[] imperialConversionRate, double metricToImperialRate, double imperialToMetricRate, String metricUnit, String metricAbbreviation){
+    public ImperialCalculator(String imperialUnitsList, double[] imperialConversionRate, double metricToImperialRate, double imperialToMetricRate, String metricUnit, String metricAbbreviation){
         this.imperialUnitsList = imperialUnitsList;
         this.imperialConversionRate = imperialConversionRate;
         this.metricToImperialRate = metricToImperialRate;

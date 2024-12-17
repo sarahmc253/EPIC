@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class CalculatorOutput {
     Scanner input = new Scanner(System.in);
     CalculateUnits calculateUnits = new CalculateUnits();
-    ImperialCaluclator imperialCaluclator;
+    ImperialCalculator imperialCalculator;
     Volume volume = new Volume();
     Mass mass = new Mass();
     Length length = new Length();
@@ -46,17 +46,17 @@ public class CalculatorOutput {
     public void determineCalculator(){
         int converter = input.nextInt();
 
-        imperialCaluclator = switch (converter){
-            case 1 -> new ImperialCaluclator(volume.imperialUnitsList, volume.imperialConversionRate, volume.metricToImperialRate, volume.imperialToMetricRate, volume.metricUnit, volume.metricAbbreviation);
-            case 2 -> new ImperialCaluclator(mass.imperialUnitsList, mass.imperialConversionRate, mass.metricToImperialRate, mass.imperialToMetricRate, mass.metricUnit, mass.metricAbbreviation);
-            case 3 -> new ImperialCaluclator(length.imperialUnitsList, length.imperialConversionRate, length.metricToImperialRate, length.imperialToMetricRate, length.metricUnit, length.metricAbbreviation);
+        imperialCalculator = switch (converter){
+            case 1 -> new ImperialCalculator(volume.imperialUnitsList, volume.imperialConversionRate, volume.metricToImperialRate, volume.imperialToMetricRate, volume.metricUnit, volume.metricAbbreviation);
+            case 2 -> new ImperialCalculator(mass.imperialUnitsList, mass.imperialConversionRate, mass.metricToImperialRate, mass.imperialToMetricRate, mass.metricUnit, mass.metricAbbreviation);
+            case 3 -> new ImperialCalculator(length.imperialUnitsList, length.imperialConversionRate, length.metricToImperialRate, length.imperialToMetricRate, length.metricUnit, length.metricAbbreviation);
             default -> throw new IllegalStateException("Unexpected value: " + converter);
         };
     }
 
     public int[] takeInputs(){
-        System.out.println(metricUnitsList(imperialCaluclator.metricUnit, imperialCaluclator.metricAbbreviation));
-        System.out.println(imperialCaluclator.imperialUnitsList);
+        System.out.println(metricUnitsList(imperialCalculator.metricUnit, imperialCalculator.metricAbbreviation));
+        System.out.println(imperialCalculator.imperialUnitsList);
 
         int convertFrom = 0;
 
@@ -84,11 +84,11 @@ public class CalculatorOutput {
         if(convertFrom <= 7 && convertTo <= 7){
             result = calculateUnits.metricToMetric(convertFrom, convertTo, amount);
         }else if(convertFrom > 7 && convertTo > 7){
-            result = calculateUnits.imperialToImperial(convertFrom, convertTo, amount, imperialCaluclator.imperialConversionRate);
+            result = calculateUnits.imperialToImperial(convertFrom, convertTo, amount, imperialCalculator.imperialConversionRate);
         }else if(convertFrom <= 7){
-            result = calculateUnits.metricToImperial(convertFrom, convertTo, amount, imperialCaluclator.imperialConversionRate, imperialCaluclator.metricToImperialRate);
+            result = calculateUnits.metricToImperial(convertFrom, convertTo, amount, imperialCalculator.imperialConversionRate, imperialCalculator.metricToImperialRate);
         }else{
-            result = calculateUnits.imperialToMetric(convertFrom, convertTo, amount, imperialCaluclator.imperialConversionRate, imperialCaluclator.imperialToMetricRate);
+            result = calculateUnits.imperialToMetric(convertFrom, convertTo, amount, imperialCalculator.imperialConversionRate, imperialCalculator.imperialToMetricRate);
         }
 
         System.out.println(result);

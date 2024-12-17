@@ -35,37 +35,51 @@ public class Parser {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     private AbstractSyntaxTreeNode expression(boolean expectBrackets) {
+        // Create our starting node.
         AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
+        // Set the left side of the starting node to the first term you meet.
         if (tokensContainer.hasNext()) {
             node.left = term();
         } else {
+            // Return null if there is no first term.
             return null;
         }
 
+        // See if the next token is an addition or subtraction operator.
         if (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.AdditionOperator ||
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.SubtractionOperator)) {
+            // Assign the nodes token property to that token.
             node.token = tokensContainer.forward();
+            // Set the right node to the next term.
             node.right = term();
 
+            // While you keep meeting addition or subtraction operators create new nodes.
             while(tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.AdditionOperator ||
                     tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.SubtractionOperator)) {
                 AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
+                // Assign the token as being the next token in the token container.
                 newNode.token = tokensContainer.forward();
+                // The current node becomes the left node as it is a number and needs to be applied to
+                // the operator node (the new one we created).
                 newNode.left = node;
+                // Assign the next term to the right node.
                 newNode.right = term();
 
+                // The current node becomes the new node as it is higher up the tree.
                 node = newNode;
             }
         }
 
+        // If we are expecting brackets and there are no more tokens or the next tokenType is not a ')' throw an exception.
         if (expectBrackets &&
                 (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.RightBracket)) {
             throw new RuntimeException("Syntax error: Expecting ')' at token " + tokensContainer.getPosition());
         } else if (expectBrackets &&
                 tokensContainer.hasNext() &&
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightBracket) {
+            // Move forward in the token container if the next token is a RightBracket and there is another token left.
             tokensContainer.forward();
         }
 
@@ -82,17 +96,23 @@ public class Parser {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     private AbstractSyntaxTreeNode term() {
+        // Create our starting node.
         AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
+        // If there are no more tokens in the token container then throw an error.
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting factor at token " + tokensContainer.getPosition());
         }
 
+        // Set the current token as the left factor (the 2 in 2 \times 3 for example)
         node.left = factor();
 
+        // If we aren't at the end of the token container and the next operator is a division or multiplication operator
         if (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
+            // Set the nodes token to the next token.
             node.token = tokensContainer.forward();
+            // Set the right node to the next factor (the 3 in 2 \times 3)
             node.right = factor();
 
             while (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
