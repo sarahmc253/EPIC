@@ -44,12 +44,8 @@ public class Evaluator {
         addFunction(new EvaluatorFunction("log", 1, number -> Math.log(number[0])));
         // ln(x)
         addFunction(new EvaluatorFunction("ln", 1, number -> Math.log(number[0])));
-
-        // LaTeX Functions
-        // \sqrt{x}
+        // \sqrt(x)
         addFunction(new EvaluatorFunction("\\sqrt", 1, number -> Math.sqrt(number[0])));
-        // \frac{x}{y}
-        addFunction(new EvaluatorFunction("\\frac", 2, number -> number[0] / number[1]));
 
     }
 
