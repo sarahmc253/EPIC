@@ -30,18 +30,22 @@ public class Lexer {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     public TokensContainer tokenize() {
+        // Create a new token container
         TokensContainer tokenContainer = new TokensContainer();
 
+        // Keep repeating until you are at the end of the input string
         while (tokenStringReader.hasNext()) {
             TokenIdentity identity = TokenIdentifier.identify(tokenStringReader);
             TokenIdentifier.TokenType tokenType = identity.tokenType;
-            int jump = identity.jump;
+            int jump = identity.jump; // how far we jump forward in the string after reaching a character
 
+            // skip white space if you see it
             if (tokenStringReader.peekForward() == ' ') {
                 tokenStringReader.forward();
             } else {
+                // loop through the entire string
                 for (int i = 0; i < jump; i++) { tokenStringReader.forward(); }
-
+                // follow the right process for each token type when adding the token to the container
                 switch (tokenType) {
                     case TokenIdentifier.TokenType.Number:
                         tokenContainer.addToken(NumberToken.parse(tokenStringReader));
@@ -83,6 +87,7 @@ public class Lexer {
                         tokenContainer.addToken(new Token(TokenIdentifier.TokenType.FactorialOperator));
                         break;
                     default:
+                        // We couldn't find an appropriate case for our token so it is an invalid token
                         throw new RuntimeException("Invalid token at " + tokenStringReader.getPosition());
                 }
             }

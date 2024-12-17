@@ -22,11 +22,11 @@ public class Calculator {
 
 
             if(desiredAction == 1) {
-                performCalculation(new Averages.MeanCalculation(), memory);
+                performCalculation(new Averages.MeanICalculation(), memory);
             } else if(desiredAction == 2) {
-                performCalculation(new Averages.ModeCalculation(), memory);
+                performCalculation(new Averages.ModeICalculation(), memory);
             } else if(desiredAction == 3) {
-                performCalculation(new Averages.MedianCalculation(), memory);
+                performCalculation(new Averages.MedianICalculation(), memory);
             } else if(desiredAction == 4) {
                 System.out.println("Calculator memory:");
                 if(memory.isEmpty()) {

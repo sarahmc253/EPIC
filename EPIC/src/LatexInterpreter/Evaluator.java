@@ -46,7 +46,8 @@ public class Evaluator {
         addFunction(new EvaluatorFunction("ln", 1, number -> Math.log(number[0])));
         // \sqrt(x)
         addFunction(new EvaluatorFunction("\\sqrt", 1, number -> Math.sqrt(number[0])));
-
+        // isolatedDivide(x, y)
+        addFunction(new EvaluatorFunction("isolatedDivide", 2, number -> number[0] / number[1]));
     }
 
     /// <summary>
@@ -79,19 +80,21 @@ public class Evaluator {
     /// <exception cref="RuntimeException"></exception>
     private double evaluate(AbstractSyntaxTreeNode node) {
         if (node instanceof LeftOperatorNode) {
-            // left operators
+            // see if its something like -5
             if (node.token.tokenType == TokenIdentifier.TokenType.SubtractionOperator) {
-                // minus
+                // return the negative version of the next node
                 return -evaluate(((LeftOperatorNode)node).next);
             } else {
-                // factorial
+                // factorial is the only other option
                 double value = evaluate(((LeftOperatorNode)node).next);
                 double newValue = 1;
 
+                // Conduct the factorial process
                 while (value > 1) {
                     newValue = newValue * value--;
                 }
 
+                // return the finished value
                 return newValue;
             }
         } else if (node instanceof FunctionAbstractSyntaxTreeNode) {
@@ -102,6 +105,7 @@ public class Evaluator {
 
             // checks if the function exists
             if (functions.containsKey(name)) {
+                // if the parameter count is under the minimum paramater count then throw an error
                 if (functionNode.parameters.size() < functions.get(name).minArgs) {
                     throw new RuntimeException("The function " + name + " needs at least " + functions.get(name).minArgs + " argument(s).");
                 }
@@ -120,12 +124,13 @@ public class Evaluator {
             }
         } else {
             // nice one it isn't a number with some operator tacked onto it or a function
+            // check if the left node exists
             if (node.left != null) {
-                // operator
+                // evaluate the left and right nodes
                 double first = evaluate(node.left);
                 double second = evaluate(node.right);
 
-                // TODO: add checking for matrices then choose the correct operation
+                // apply the correct operations based on token type
                 switch (node.token.tokenType) {
                     case TokenIdentifier.TokenType.AdditionOperator:
                         return first + second;
@@ -140,14 +145,18 @@ public class Evaluator {
                 }
             } else if (node.token.tokenType == TokenIdentifier.TokenType.Identifier) {
                 // variable
+                // cast IdentifierToken to the nodes token and set its identifier property to be the name variable
                 String name = ((IdentifierToken)node.token).identifier;
+                // see if the variable exists
                 if (variables.containsKey(name)) {
+                    // return the variables value
                     return variables.get(name);
                 } else {
+                    // throw an error if it doesnt exist
                     throw new RuntimeException("There is exists no variables with the name '" + name + "'.");
                 }
             }
-
+            // cast NumberToken to the nodes token and return the value
             return ((NumberToken)node.token).value;
         }
     }

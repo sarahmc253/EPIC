@@ -201,10 +201,15 @@ public class Parser {
             node = leftOperator;
         }
 
+        // If we aren't at the end of the container and there is a factorial operator present
         if (tokensContainer.hasNext() && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.FactorialOperator) {
+            // Create a new LeftOperatorNode
             LeftOperatorNode newNode = new LeftOperatorNode();
+            // Assign its token to the next token in the container
             newNode.token = tokensContainer.forward();
+            // Set the next property of our new node to the number we want the operator applied to
             newNode.next = node;
+            // We set the base node to our new node
             node = newNode;
         }
 
@@ -217,26 +222,38 @@ public class Parser {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     private AbstractSyntaxTreeNode factorBase() {
+        // If we're at the end of the token container throw an error
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting token at token " + tokensContainer.getPosition());
         }
 
+        // If there are more than 2 tokens left in the container and the next 2 consist of an identifier then a '('
         if (tokensContainer.hasNext(2) &&
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier &&
                 tokensContainer.peekForward(1).tokenType == TokenIdentifier.TokenType.LeftBracket) {
+            // We know it's a function call
             return functionCall();
+            // If the next token is a number or an identifier
         } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Number ||
                 tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.Identifier) {
+            // Create a new AST node
             AbstractSyntaxTreeNode outputNode = new AbstractSyntaxTreeNode();
 
+            // Set the token of that node to the next token in the container
             outputNode.token = tokensContainer.forward();
 
+            // Return that node
             return outputNode;
+            // If the next node is a '('
         } else if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.LeftBracket) {
+            // Move forward a node as we don't put these in the tree
             tokensContainer.forward();
+            // We say the next tokens we encounter is part of its own expression but to
+            // expect a closing bracket to end it
             return expression(true);
         }
 
+        // If none of them are true something went wrong, throw an error
         throw new RuntimeException("Syntax error: Expecting number, expression, function call or constant at token " + tokensContainer.getPosition());
     }
 
@@ -246,37 +263,53 @@ public class Parser {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     private AbstractSyntaxTreeNode functionCall() {
+        // Create a new function node
         FunctionAbstractSyntaxTreeNode node = new FunctionAbstractSyntaxTreeNode();
 
+        // If there is nothing left in the container throw an error
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
         }
 
+        // Set the token of the node to the next token in the container
         node.token = tokensContainer.forward();
 
+        // If the container is at the end or isn't a left bracket then throw an error
         if (!tokensContainer.hasNext() || tokensContainer.peekForward().tokenType != TokenIdentifier.TokenType.LeftBracket) {
             throw new RuntimeException("Syntax error: Expecting function identifier at token " + tokensContainer.getPosition());
         }
 
+        // Move forward one in the container
         tokensContainer.forward();
 
+        // We aren't expecting a closing bracket
         boolean expectClosingBracket = false;
 
+        // Keep looping until we are at the end of the container
         while (tokensContainer.hasNext()) {
+            // If the token is a right bracket
             if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.RightBracket) {
+                // We're at the end of the function, move forward one
                 tokensContainer.forward();
+                // Return the node
                 return node;
             }
 
+            // If we are expecting a closing bracket and we meet a ','
             if (expectClosingBracket && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.ParameterSeparator) {
+                // Move forward one in the container
                 tokensContainer.forward();
+                // Don't expect a closing bracket
                 expectClosingBracket = false;
             } else {
+                // Add the solved form of the function argument to the parameters
                 node.parameters.add(expression());
+                // Expect a closing bracket
                 expectClosingBracket = true;
             }
         }
 
+        // If all fails throw an error
         throw new RuntimeException("Syntax error: Expecting function end ')' at token " + tokensContainer.getPosition());
     }
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class Averages {
 
     //calculate the MEAN (add all values together & divide by how many numbers there are)
-    public static class MeanCalculation extends AveragesBasis {
+    public static class MeanICalculation extends AveragesBasis {
         @Override
         public double calculate(double[] numbersToAverage) {
             double sum = 0.0;
@@ -20,7 +20,7 @@ public class Averages {
     }
 
     //calculate the MODE (most frequent value)
-    public static class ModeCalculation extends AveragesBasis {
+    public static class ModeICalculation extends AveragesBasis {
         @Override
         public double calculate(double[] numbersToAverage) {
             HashMap<Double, Integer> frequencyMap = new HashMap<>(); //map to track how often each number occurs
@@ -56,7 +56,7 @@ public class Averages {
     }
 
         //calculate MEDIAN
-        public static class MedianCalculation extends AveragesBasis {
+        public static class MedianICalculation extends AveragesBasis {
             @Override
             public double calculate(double[] numbersToAverage) {
                 Arrays.sort(numbersToAverage);

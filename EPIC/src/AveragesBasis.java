@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public abstract class AveragesBasis implements Calculation {
+public abstract class AveragesBasis implements ICalculation {
     protected  Scanner scanner = new Scanner(System.in);
 
     protected double[] parseInput() {
