@@ -7,7 +7,10 @@ public class CalculatorOutput {
     Volume volume = new Volume();
     Mass mass = new Mass();
     Length length = new Length();
+    HexConversion hexConversion = new HexConversion();
     double result;
+
+
 
     String metricUnitsList(String currentUnit, String abbreviation) {
 
@@ -20,7 +23,19 @@ public class CalculatorOutput {
                 "7: Kilo" + currentUnit + "(k" + abbreviation + ") \n");
     }
 
-    public void introToUser() {
+    public void intro(){
+        System.out.println("Enter 1 for base conversion or 2 for unit conversion:");
+        int baseOrUnit = input.nextInt();
+        if(baseOrUnit == 1){
+            baseConversion();
+        }else if(baseOrUnit == 2){
+            unitIntro();
+            determineCalculator();
+            determineInputs(takeInputs());
+        }
+    }
+
+    public void unitIntro() {
         System.out.println("Enter number corresponding to what you would like to convert:");
         System.out.println("""
                 1: Volume\s
@@ -77,5 +92,25 @@ public class CalculatorOutput {
         }
 
         System.out.println(result);
+    }
+
+    public void baseConversion(){
+        System.out.println("""
+                            Convert from:
+                            1: Decimal
+                            2: Binary
+                            3: Hexadecimal""");
+
+        int converter = input.nextInt();
+        System.out.println("Enter amount: ");
+        String amount = input.next();
+        if(converter == 1){
+            hexConversion.decimal(Integer.parseInt(amount));
+        }else if(converter == 2){
+            hexConversion.binary(amount);
+        }else if(converter == 3){
+            hexConversion.hex(amount);
+        }
+
     }
 }
