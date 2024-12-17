@@ -158,27 +158,25 @@ public class TokenIdentifier {
     /// "\times" or "\cdot".
     /// </summary>
     private static boolean isMultiplicationOperator(TokenStringReader tokenStringReader) {
-        if (tokenStringReader.hasNext(6)) {
-            String checkString = "";
+        String cdotString = "";
+        String timesString = "";
 
-            for (int i = 0; i < 6; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
-            }
-
-            if (checkString.equals("\\times")) {
-                return true;
-            }
-        } else if (tokenStringReader.hasNext(5)) {
-            String checkString = "";
-
+        if (tokenStringReader.hasNext(5)) {
             for (int i = 0; i < 5; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
-            }
-
-            if (checkString.equals("\\cdot")) {
-                return true;
+                cdotString = cdotString + tokenStringReader.peekForward(i);
             }
         }
+
+        if (tokenStringReader.hasNext(6)) {
+            for (int i = 0; i < 6; i++) {
+                timesString = timesString + tokenStringReader.peekForward(i);
+            }
+        }
+
+        if (cdotString.equals("\\cdot") || timesString.equals("\\times")) {
+            return true;
+        }
+
         return false;
     }
 
@@ -219,26 +217,25 @@ public class TokenIdentifier {
     /// Gets the jump size a certain multiplication operation will need.
     /// </summary>
     private static int getMultiplicationJump(TokenStringReader tokenStringReader) {
-        if (tokenStringReader.hasNext(6)) {
-            String checkString = "";
+        String cdotString = "";
+        String timesString = "";
 
-            for (int i = 0; i < 6; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
-            }
-
-            if (checkString.equals("\\times")) {
-                return 6;
-            }
-        } else if (tokenStringReader.hasNext(5)) {
-            String checkString = "";
-
+        if (tokenStringReader.hasNext(5)) {
             for (int i = 0; i < 5; i++) {
-                checkString = checkString + tokenStringReader.peekForward(i);
+                cdotString = cdotString + tokenStringReader.peekForward(i);
             }
+        }
 
-            if (checkString.equals("\\cdot")) {
-                return 5;
+        if (tokenStringReader.hasNext(6)) {
+            for (int i = 0; i < 6; i++) {
+                timesString = timesString + tokenStringReader.peekForward(i);
             }
+        }
+
+        if (cdotString.equals("\\cdot")) {
+            return 5;
+        } else if (timesString.equals("\\times")) {
+            return 6;
         }
 
         return 0;
