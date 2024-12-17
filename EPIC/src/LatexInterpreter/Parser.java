@@ -115,13 +115,20 @@ public class Parser {
             // Set the right node to the next factor (the 3 in 2 \times 3)
             node.right = factor();
 
+            // While we still have more things in the tokens container and the next tokenType is a multiplication
+            // or division operator
             while (tokensContainer.hasNext() && (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.MultiplicationOperator ||
                     tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.DivisionOperator)) {
+                // Create a new base node
                 AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
+                // The new nodes token is the next one in the container.
                 newNode.token = tokensContainer.forward();
+                // The left node is the current node as that is a number.
                 newNode.left = node;
+                // The right node is some factor.
                 newNode.right = factor();
+                // Change the base node to this new node.
                 node = newNode;
             }
         }
@@ -140,31 +147,44 @@ public class Parser {
     /// <returns></returns>
     /// <exception cref="RuntimeException"></exception>
     private AbstractSyntaxTreeNode factor() {
+        // Create a new starting node
         AbstractSyntaxTreeNode node = new AbstractSyntaxTreeNode();
 
+        // If there are no other tokens in the container throw an exception.
         if (!tokensContainer.hasNext()) {
             throw new RuntimeException("Syntax error: Expecting factor base at token " + tokensContainer.getPosition());
         }
 
+        // Create a null LeftOperatorNode (any number that has an operator tacked onto it such as -5, 5!, 5^x)
         LeftOperatorNode leftOperator = null;
 
+        // If a subtraction operator is the next token set the LeftOperatorNodes token to the subtraction operator
         if (tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.SubtractionOperator) {
             leftOperator = new LeftOperatorNode();
             leftOperator.token = tokensContainer.forward();
         }
 
+        // Set the left node to the base factor (a number without an operator)
         node.left = factorBase();
 
+        // If the tokens container isn't at the end and the next token is the power operator then make the token
+        // the power operator and set the right node to the factor of the token after it.
         if (tokensContainer.hasNext() && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.PowerOperator) {
             node.token = tokensContainer.forward();
             node.right = factor();
 
+            // While there are more tokens in the container and the next token type is a power operator
             while (tokensContainer.hasNext() && tokensContainer.peekForward().tokenType == TokenIdentifier.TokenType.PowerOperator) {
+                // Create a new AST node
                 AbstractSyntaxTreeNode newNode = new AbstractSyntaxTreeNode();
 
+                // Make the token the power operator
                 newNode.token = tokensContainer.forward();
+                // Set the current node as the left node of this new node
                 newNode.left = node;
+                // Set the right node to some factor
                 newNode.right = factor();
+                // Set the current node to the new node
                 node = newNode;
             }
         }
@@ -174,7 +194,10 @@ public class Parser {
         }
 
         if (leftOperator != null) {
+            // Set the current number we have to the left operator nodes "next"
+            // (the node it's going to apply its operation to) value
             leftOperator.next = node;
+            // Set the base node to the left operator node
             node = leftOperator;
         }
 
