@@ -117,12 +117,12 @@ public class Matrices {
             throw new ArithmeticException("Matrix is singular and cannot be inverted.");
         }
 
-        det = 1 / det;
+        double inverseDet = 1 / det;
 
-        c[0][0] = matrix[1][1] * det;
-        c[0][1] = -matrix[0][1] * det;
-        c[1][0] = -matrix[1][0] * det;
-        c[1][1] = matrix[0][0] * det;
+        c[0][0] = matrix[1][1] * inverseDet;
+        c[0][1] = -matrix[0][1] * inverseDet;
+        c[1][0] = -matrix[1][0] * inverseDet;
+        c[1][1] = matrix[0][0] * inverseDet;
 
         return c;
     }
@@ -137,7 +137,7 @@ public class Matrices {
             return x;
         }
 
-        catch (Exception e) { // fallback to LU decomposition for larger matrices
+        catch (Exception e) { // fallback to LU factorization for larger matrices
 
             double[][] lowerTriangularMatrix = new double[a.length][a[0].length];
             double[][] upperTriangularMatrix = new double[a.length][a[0].length];
@@ -155,18 +155,21 @@ public class Matrices {
                 lowerTriangularMatrix[i][i] = 1.0;
             }
 
-            for (int i = 0; i < a.length; i++) {
-                for (int j = i; j < a.length; j++) {  // creating the upperTriangularMatrix
+            for (int i = 0; i < a.length; i++) { // iterating over the rows of a
+
+                // creating the upperTriangularMatrix
+                for (int j = i; j < a.length; j++) {  // iterating over the upper diagonal and diagonal elements of a
                     double sum = 0.0;
-                    for (int k = 0; k < i; k++) { //
-                        sum += lowerTriangularMatrix[i][k] * upperTriangularMatrix[k][j];
+                    for (int k = 0; k < i; k++) { // iterating over the shared dimensions of L and U
+                        sum += lowerTriangularMatrix[i][k] * upperTriangularMatrix[k][j]; // calculating the sum of the products
                     }
-                    upperTriangularMatrix[i][j] = a[i][j] - sum;
+                    upperTriangularMatrix[i][j] = a[i][j] - sum; // subtracting the sum from the corresponding element in a
                 }
 
-                for (int j = i + 1; j < a.length; j++) {  // creating a lowerTriangularMatrix
+                // creating a lowerTriangularMatrix
+                for (int j = i + 1; j < a.length; j++) { // iterating over the elements of a below the diagonal
                     double sum = 0.0;
-                    for (int k = 0; k < i; k++) {
+                    for (int k = 0; k < i; k++) { // iterating over the shared elements
                         sum += lowerTriangularMatrix[j][k] * upperTriangularMatrix[k][i];
                     }
                     if (upperTriangularMatrix[i][i] == 0) {
@@ -213,7 +216,7 @@ public class Matrices {
         return dotProduct;
     }
 
-    public static double[] findEigenvalues(double[][] matrix) {
+    public static String[][] findEigenvalues(double[][] matrix) {
         if (matrix.length != 2 || matrix[0].length != 2) { // size validation
             throw new IllegalArgumentException("Matrix must be 2x2.");
         }
@@ -241,7 +244,7 @@ public class Matrices {
         double eigenvalue2 = (-quadraticB - Math.sqrt((quadraticB * quadraticB) -
                 (4 * quadraticA * quadraticC))) / (2 * quadraticA);
 
-        double eigenvalues[] = {eigenvalue1, eigenvalue2};
+        String eigenvalues[][] = {{"Eigenvalue 1: " + eigenvalue1}, {"Eigenvalue 2: " + eigenvalue2}};
 
         return eigenvalues;
     }
@@ -257,7 +260,22 @@ public class Matrices {
         return string;
     }
 
+    public static String toString(String[][] matrix) {
+        String string = "";
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                string = string + matrix[i][j] + " ";
+            }
+            string = string + "\n";
+        }
+        return string;
+    }
+
     private static boolean isRectangular(double[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+
         int columns = matrix[0].length;
         for (double[] row : matrix) {
             if (row.length != columns) {

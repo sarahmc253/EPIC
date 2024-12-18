@@ -1,11 +1,16 @@
 public class MatricesTest {
     public static void main(String[] args) {
-        double[][] b = {{3, 2, 1}, {4, 2, 1}, {5, 2, 1}};
-        double[][] a = {{3, 2, 1}, {4, 2, 1}, {5, 2, 1}};
+        double[][] a = {{0.8, 0.3,}, {0.2, 0.7,}};
+        double[][] b = {{3}, {3}, {-6}};
 
-        double[][] multiplication = Matrices.matrixMultiplication(a, b);
+        String[][] eigenvalues = Matrices.findEigenvalues(a);
 
-        System.out.println("Multiplication:");
-        System.out.print(Matrices.toString(multiplication));
+        System.out.println("X:");
+        for (String[] string : eigenvalues) {
+            for (String string1 : string) {
+                System.out.print(string1);
+                System.out.println();
+            }
+        }
     }
 }
