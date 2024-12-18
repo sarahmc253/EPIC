@@ -51,59 +51,59 @@ public class Matrices {
         return c;
     }
 
-    public static double[][] matrixTranspose(double[][] a) {
+    public static double[][] matrixTranspose(double[][] matrix) {
 
-        if (a == null) {
+        if (matrix == null) {
             throw new IllegalArgumentException("Matrix can't be null.");
         }
-        if (!isRectangular(a)) {
+        if (!isRectangular(matrix)) {
             throw new IllegalArgumentException("Matrix must be rectangular.");
         }
 
-        double[][] c = new double[a[0].length][a.length];
+        double[][] c = new double[matrix[0].length][matrix.length];
 
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[0].length; j++) {
-                c[j][i] = a[i][j];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                c[j][i] = matrix[i][j];
             }
         }
         return c;
     }
 
-    public static double matrixDeterminant(double[][] a) {
-        if (a == null) {
+    public static double matrixDeterminant(double[][] matrix) {
+        if (matrix == null) {
             throw new IllegalArgumentException("Matrix can't be null.");
         }
-        if (!isRectangular(a)) {
+        if (!isRectangular(matrix)) {
             throw new IllegalArgumentException("Matrix must be rectangular.");
         }
-        if (a.length != 2 || a[0].length != 2) {
+        if (matrix.length != 2 || matrix[0].length != 2) {
             throw new IllegalArgumentException("Matrix must be 2 x 2.");
         }
 
-        double c = (a[0][0] * a[1][1]) - (a[0][1] * a[1][0]);
+        double c = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
 
         return c;
     }
 
-    public static double[][] matrixInverseTwoByTwo(double[][] a) {
-        if (a.length != 2 || a[0].length != 2) {
+    public static double[][] matrixInverseTwoByTwo(double[][] matrix) {
+        if (matrix.length != 2 || matrix[0].length != 2) {
             throw new IllegalArgumentException("Matrix must be a 2 x 2.");
         }
 
         double[][] c = new double[2][2];
 
-        double det = matrixDeterminant(a);
+        double det = matrixDeterminant(matrix);
         if (det == 0) {
             throw new ArithmeticException("Matrix is singular and cannot be inverted.");
         }
 
         det = 1 / det;
 
-        c[0][0] = a[1][1] * det;
-        c[0][1] = -a[0][1] * det;
-        c[1][0] = -a[1][0] * det;
-        c[1][1] = a[0][0] * det;
+        c[0][0] = matrix[1][1] * det;
+        c[0][1] = -matrix[0][1] * det;
+        c[1][0] = -matrix[1][0] * det;
+        c[1][1] = matrix[0][0] * det;
 
         return c;
     }
