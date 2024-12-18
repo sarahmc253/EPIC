@@ -7,7 +7,7 @@ public class MatrixOutput {
 
 
         System.out.println("1. Addition \n2. Subtraction \n3. Multiplication \n4. Transpose \n5. Determinant" +
-                "\n6. Inverse (2x2) \n7. Matrix Linear Equation \n8. Find Eigenvalues");
+                "\n6. Inverse (2x2) \n7. Find Eigenvalues");
         System.out.print("Enter value of your desired method: ");
 
         int value = input.nextInt();
@@ -97,22 +97,7 @@ public class MatrixOutput {
             System.out.println("Answer: ");
             System.out.print(Matrices.toString(answer));
         }
-
         else if (value == 7) {
-            System.out.printf("Enter matrix a%n");
-            double[][] a = inputMatrix();
-
-            System.out.println("Matrix b must have only one column");
-            System.out.printf("Enter matrix b%n");
-            double[][] b = inputMatrix();
-
-            double[][] answer = Matrices.matrixLinearEquation(a, b);
-
-            System.out.println("Answer: ");
-            System.out.print(Matrices.toString(answer));
-        }
-
-        else if (value == 8) {
             System.out.printf("Enter matrix%n");
             double[][] a = inputMatrix();
 
