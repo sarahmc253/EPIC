@@ -17,7 +17,7 @@ public class LatexInterpreter {
         TokensContainer tokensContainer = lexer.tokenize();
 
         Parser parser = new Parser(tokensContainer);
-        AbstractSyntaxTreeNode root = parser.buildParseTree();
+        AbstractSyntaxTreeNode root = parser.buildAbstractSyntaxTree();
 
         Evaluator evaluator = new Evaluator(root);
 

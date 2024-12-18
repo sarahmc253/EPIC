@@ -19,7 +19,7 @@ public class Parser {
     /// Builds the abstract syntax tree.
     /// </summary>
     /// <returns></returns>
-    public AbstractSyntaxTreeNode buildParseTree() {
+    public AbstractSyntaxTreeNode buildAbstractSyntaxTree() {
         AbstractSyntaxTreeNode root = expression();
         return root;
     }
