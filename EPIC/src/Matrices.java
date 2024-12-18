@@ -14,19 +14,30 @@ public class Matrices {
 
         System.out.println();
 
-        switch (value) {
-            case 1:
-                System.out.printf("Enter matrix a:%n");
-                double[][] a = inputMatrix();
+        if (value == 1) {
+            System.out.printf("Enter matrix a%n");
+            double[][] a = inputMatrix();
 
-                System.out.printf("Enter matrix b:%n");
-                double[][] b = inputMatrix();
+            System.out.printf("Enter matrix b%n");
+            double[][] b = inputMatrix();
 
-                double[][] answer = matrixAddition(a, b);
+            double[][] answer = matrixAddition(a, b);
 
-                System.out.print(toString(answer));
+            System.out.println("Answer: ");
+            System.out.print(toString(answer));
         }
+        else if (value == 2) {
+            System.out.printf("Enter matrix a%n");
+            double[][] a = inputMatrix();
 
+            System.out.printf("Enter matrix b%n");
+            double[][] b = inputMatrix();
+
+            double[][] answer = matrixSubtraction(a, b);
+
+            System.out.println("Answer: ");
+            System.out.print(toString(answer));
+        }
     }
 
     public static double[][] inputMatrix() {
@@ -34,7 +45,7 @@ public class Matrices {
 
         System.out.print("Enter the number of rows: ");
         int rows = input.nextInt();
-        System.out.printf("%nEnter the number of columns: ");
+        System.out.print("Enter the number of columns: ");
         int columns = input.nextInt();
 
         double[][] matrix = new double[rows][columns];
