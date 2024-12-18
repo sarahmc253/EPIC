@@ -217,11 +217,6 @@ public class Matrices {
             throw new IllegalArgumentException("This method does not handle complex roots");
         }
 
-        if (quadraticC < 0) {
-            throw new IllegalArgumentException("Eigenvalues are complex, this method does not handle complex problems.");
-        }
-
-
         double eigenvalue1 = (-quadraticB + Math.sqrt((quadraticB * quadraticB) -
                 (4 * quadraticA * quadraticC))) / (2 * quadraticA); // basically minus b formula
         double eigenvalue2 = (-quadraticB - Math.sqrt((quadraticB * quadraticB) -
