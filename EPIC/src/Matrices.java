@@ -1,6 +1,9 @@
+import java.util.Scanner;
+
 public class Matrices {
 
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
 
     }
 
@@ -139,64 +142,69 @@ public class Matrices {
             double[][] x = matrixMultiplication(inverseA, b);
 
             return x;
-        }
+        } catch (Exception e) { // falls back to LU factorization for larger matrices
 
-        catch (Exception e) { // fallback to LU factorization for larger matrices
-
-            double[][] lowerTriangularMatrix = new double[a.length][a[0].length];
-            double[][] upperTriangularMatrix = new double[a.length][a[0].length];
-            double[][] c = new double[a.length][1];
-            double[][] x = new double[a.length][1];
+            // declaring matrices for the LU factorization process
+            double[][] lowerTriangularMatrix = new double[a.length][a[0].length]; // stores the lower triangular matrix (L)
+            double[][] upperTriangularMatrix = new double[a.length][a[0].length]; // stores the upper triangular matrix (U)
+            double[][] c = new double[a.length][1]; // intermediate result matrix (c) for solving two systems of equations
+            double[][] x = new double[a.length][1]; // solution vector (x)
 
             // Ax = b
             // A = LU
             // LUx = b
-            // Let Ux = c
+            // Ux = c
             // Lc = b
-            // Then solve Ux = c
+            // Solve for c
+            // Ux = c
+            // Solve for x
 
-            for (int i = 0; i < a.length; i++) { // initalizing lowerTriangularMatrix to an identity matrix
-                lowerTriangularMatrix[i][i] = 1.0;
+            // step 1: initialise L as an identity matrix (diagonal elements are 1)
+            for (int i = 0; i < a.length; i++) {
+                lowerTriangularMatrix[i][i] = 1.0; // setting diagonal elements of L to 1
             }
 
-            for (int i = 0; i < a.length; i++) { // iterating over the rows of a
+            // step 2: factorise matrix A into L (lower triangular) and U (upper triangular)
+            for (int i = 0; i < a.length; i++) { // looping through rows of matrix A
 
-                // creating the upperTriangularMatrix
-                for (int j = i; j < a.length; j++) {  // iterating over the upper diagonal and diagonal elements of a
-                    double sum = 0.0;
-                    for (int k = 0; k < i; k++) { // iterating over the shared dimensions of L and U
-                        sum += lowerTriangularMatrix[i][k] * upperTriangularMatrix[k][j]; // calculating the sum of the products
+                // build the upper triangular matrix (U)
+                for (int j = i; j < a.length; j++) { // iterating over diagonal and above-diagonal elements of U
+                    double sum = 0.0; // variable to accumulate intermediate sums
+                    for (int k = 0; k < i; k++) { // multiplying corresponding L and U elements
+                        sum += lowerTriangularMatrix[i][k] * upperTriangularMatrix[k][j];
                     }
-                    upperTriangularMatrix[i][j] = a[i][j] - sum; // subtracting the sum from the corresponding element in a
+                    upperTriangularMatrix[i][j] = a[i][j] - sum; // subtracting sum from the corresponding A element
                 }
 
-                // creating a lowerTriangularMatrix
-                for (int j = i + 1; j < a.length; j++) { // iterating over the elements of a below the diagonal
-                    double sum = 0.0;
-                    for (int k = 0; k < i; k++) { // iterating over the shared elements
+                // build the lower triangular matrix (L)
+                for (int j = i + 1; j < a.length; j++) { // iterating over below-diagonal elements of L
+                    double sum = 0.0; // variable to accumulate intermediate sums
+                    for (int k = 0; k < i; k++) { // multiplying corresponding L and U elements
                         sum += lowerTriangularMatrix[j][k] * upperTriangularMatrix[k][i];
                     }
-                    if (upperTriangularMatrix[i][i] == 0) {
-                        throw new ArithmeticException("Matrix is singular");
+                    if (upperTriangularMatrix[i][i] == 0) { // prevent division by zero
+                        throw new ArithmeticException("Matrix is singular"); // if U has a zero on the diagonal, the matrix is non-invertible
                     }
-                    lowerTriangularMatrix[j][i] = (a[j][i] - sum) / upperTriangularMatrix[i][i];
+                    lowerTriangularMatrix[j][i] = (a[j][i] - sum) / upperTriangularMatrix[i][i]; // calculate L element
                 }
             }
 
-            for (int i = 0; i < a.length; i++) { // solving for Lc = b
-                double sum = 0.0;
+            // step 3: solve for intermediate vector c in the equation Lc = b using forward substitution
+            for (int i = 0; i < a.length; i++) { // loop through each row of L and b
+                double sum = 0.0; // accumulate sum of L(i,j) * c(j)
                 for (int j = 0; j < i; j++) {
                     sum += lowerTriangularMatrix[i][j] * c[j][0];
                 }
-                c[i][0] = b[i][0] - sum;
+                c[i][0] = b[i][0] - sum; // Calculate the current element of c
             }
 
-            for (int i = a.length - 1; i >= 0; i--) { // Solving for Ux = c
-                double sum = 0.0;
+            // step 4: solve for the solution vector x in the equation Ux = c using backward substitution
+            for (int i = a.length - 1; i >= 0; i--) { // start from the last row of U and work upwards
+                double sum = 0.0; // accumulate sum of U(i,j) * x(j)
                 for (int j = i + 1; j < a.length; j++) {
                     sum += upperTriangularMatrix[i][j] * x[j][0];
                 }
-                x[i][0] = (c[i][0] - sum) / upperTriangularMatrix[i][i];
+                x[i][0] = (c[i][0] - sum) / upperTriangularMatrix[i][i]; // solve for the current x element
             }
 
             return x;
