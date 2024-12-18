@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class Matrices {
 
     public static double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
@@ -205,6 +203,7 @@ public class Matrices {
             return x;
         }
     }
+
     public static String[][] findEigenvalues(double[][] matrix) {
         if (matrix.length != 2 || matrix[0].length != 2) { // size validation
             throw new IllegalArgumentException("Matrix must be 2x2.");
@@ -275,9 +274,6 @@ public class Matrices {
     }
 
     private static void validateMatrix(double[][] a, double[][] b) {
-        if (a == null || b == null) {
-            throw new IllegalArgumentException("Input matrices cannot be null.");
-        }
         if (!isRectangular(a) || !isRectangular(b)) {
             throw new IllegalArgumentException("Matrices must be rectangular.");
         }

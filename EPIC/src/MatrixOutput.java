@@ -54,11 +54,11 @@ public class MatrixOutput {
                 System.out.println("Answer: ");
                 System.out.print(Matrices.toString(answer));
             } else if (multiplicationValue == 2) {
-                System.out.printf("Enter matrix a%n");
+                System.out.printf("Enter matrix%n");
                 double[][] a = inputMatrix();
 
                 System.out.printf("Enter scalar value: %n");
-                double b = input.nextInt();
+                double b = input.nextDouble();
 
                 double[][] answer = Matrices.matrixScalarMultiplication(a, b);
 
@@ -113,9 +113,19 @@ public class MatrixOutput {
         }
 
         else if (value == 8) {
+            System.out.printf("Enter matrix%n");
+            double[][] a = inputMatrix();
 
+            String[][] answer = Matrices.findEigenvalues(a);
+
+            System.out.println("Answer: ");
+            System.out.print(Matrices.toString(answer));
+        }
+        else {
+            throw new IllegalArgumentException("Not a valid input type");
         }
     }
+
 
 
     public static double[][] inputMatrix() {
