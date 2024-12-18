@@ -164,7 +164,8 @@ public class Matrices {
         String string = "";
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                string = string + matrix[i][j] + " ";
+                String format = String.format("%.2f ", matrix[i][j]);
+                string = string + format;
             }
             string = string + "\n";
         }
