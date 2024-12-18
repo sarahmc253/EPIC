@@ -1,3 +1,8 @@
+
+/*
+ * Anna Maughan, 2024
+ */
+
 public class HexConversion {
 
     // method for when user wants to convert a decimal number into binary and hexadecimal

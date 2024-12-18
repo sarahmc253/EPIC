@@ -1,3 +1,8 @@
+
+/*
+ * Anna Maughan, 2024
+ */
+
 public class Length {
 
     // imperial system length units

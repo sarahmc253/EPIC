@@ -1,3 +1,8 @@
+
+/*
+ * Anna Maughan, 2024
+ */
+
 public class CalculateUnits {
 
     // method to convert metric units to metric units
@@ -18,9 +23,9 @@ public class CalculateUnits {
     }
 
     // method to convert imperial units to metric units
-    public double imperialToMetric(int convertFrom, int convertTo, double amount, double[] currentImperialConversionRate, double ImperialToMetricRate){
+    public double imperialToMetric(int convertFrom, int convertTo, double amount, double[] currentImperialConversionRate, double imperialToMetricRate){
         double inBasicImperial = currentImperialConversionRate[convertFrom-8]*amount;   // convert entered amount to standard imperial
-        double inBasicMetric = inBasicImperial*ImperialToMetricRate;    // convert from standard imperial to standard metric
+        double inBasicMetric = inBasicImperial* imperialToMetricRate;    // convert from standard imperial to standard metric
 
         int ratio = 4-convertTo;    // calculate ratio between standard metric unit and desired unit
         return Math.pow(10, (ratio))*inBasicMetric;     // convert amount from standard unit to desired unit

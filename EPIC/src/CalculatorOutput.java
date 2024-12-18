@@ -1,3 +1,8 @@
+
+/*
+ * Anna Maughan, 2024
+ */
+
 import java.util.Scanner;
 
 public class CalculatorOutput {

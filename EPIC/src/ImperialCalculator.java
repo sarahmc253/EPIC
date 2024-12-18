@@ -1,3 +1,8 @@
+
+/*
+ * Anna Maughan, 2024
+ */
+
 public class ImperialCalculator {
 
     // instance variables
