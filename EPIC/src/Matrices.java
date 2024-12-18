@@ -281,6 +281,4 @@ public class Matrices {
             throw new IllegalArgumentException("Matrices must have the same dimensions.");
         }
     }
-
-
 }
