@@ -84,10 +84,18 @@ public class Main {
 
     public static void displayMatrixMenu() {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Define row length.");
-        int rowLength = sc.nextInt();
-        System.out.println("Define column length.");
-        int columnLength = sc.nextInt();
+
+        while (true) {
+            try {
+                System.out.println("Define row length.");
+                int rowLength = sc.nextInt();
+                System.out.println("Define column length.");
+                int columnLength = sc.nextInt();
+            } catch (Exception e) {
+                System.out.println("Invalid input, try again.");
+                sc.nextLine();
+            }
+        }
     }
 
     public static void displayStatisticsMenu() {
