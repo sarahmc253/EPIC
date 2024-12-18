@@ -23,13 +23,13 @@ public class AveragesCalculator {
             //check the user's choice and perform the corresponding action
             if(desiredAction == 1) {
                 //calculate mean
-                performCalculation(new Averages.MeanCalculation(), memory);
+                performCalculation(new Averages.MeanICalculation(), memory);
             } else if(desiredAction == 2) {
                 //calculate mode
-                performCalculation(new Averages.ModeCalculation(), memory);
+                performCalculation(new Averages.ModeICalculation(), memory);
             } else if(desiredAction == 3) {
                 //calculate median
-                performCalculation(new Averages.MedianCalculation(), memory);
+                performCalculation(new Averages.MedianICalculation(), memory);
             } else if(desiredAction == 4) {
                 //display calculation history
                 System.out.println("Calculator memory:");

@@ -1,4 +1,4 @@
 //Interface for averaging calculation operations
-public interface Calculation {
+public interface ICalculation {
     double calculate(double[] numbersToAverage);
 }

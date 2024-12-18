@@ -3,7 +3,7 @@ get user input and convert into double array to be used in averaging calculation
  */
 import java.util.Scanner;
 
-public abstract class AveragesBasis implements Calculation {
+public abstract class AveragesBasis implements ICalculation {
     protected  Scanner scanner = new Scanner(System.in); //scanner for user input
 
     //method to handle user input and convert it into a double array
