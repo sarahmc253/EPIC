@@ -51,6 +51,25 @@ public class Matrices {
         return c;
     }
 
+    public static double[][] matrixScalarMultiplication(double[][] a, double b) {
+        if (a == null) {
+            throw new IllegalArgumentException("Matrix can't be null");
+        }
+        if (!isRectangular(a)) {
+            throw new IllegalArgumentException("Matrix must be rectangular.");
+        }
+
+        double[][] c = new double[a.length][a[0].length];
+
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < a[0].length; j++) {
+                c[i][j] = a[i][j] * b;
+            }
+        }
+
+        return c;
+    }
+
     public static double[][] matrixTranspose(double[][] matrix) {
 
         if (matrix == null) {
