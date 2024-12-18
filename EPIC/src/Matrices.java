@@ -1,5 +1,9 @@
 public class Matrices {
 
+    public static void main(String[] args) {
+
+    }
+
     public static double[][] matrixAddition(double[][] a, double[][] b) { // method to add two matrices
 
         validateMatrix(a, b);

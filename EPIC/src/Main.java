@@ -83,26 +83,21 @@ public class Main {
     }
 
     public static void displayMatrixMenu() {
-        Scanner sc = new Scanner(System.in);
-
-        while (true) {
-            try {
-                System.out.println("Define row length.");
-                int rowLength = sc.nextInt();
-                System.out.println("Define column length.");
-                int columnLength = sc.nextInt();
-            } catch (Exception e) {
-                System.out.println("Invalid input, try again.");
-                sc.nextLine();
-            }
-        }
+        Matrices.main(null);
+        new Scanner(System.in).nextLine();
+        displayMainMenu();
     }
 
     public static void displayStatisticsMenu() {
-
+        Calculator.main(null);
+        new Scanner(System.in).nextLine();
+        displayMainMenu();
     }
 
     public static void displayUnitConversionMenu() {
-
+        CalculatorOutput unitCalculator = new CalculatorOutput();
+        unitCalculator.intro();
+        new Scanner(System.in).nextLine();
+        displayMainMenu();
     }
 }
