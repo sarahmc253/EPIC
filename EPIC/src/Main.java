@@ -83,7 +83,7 @@ public class Main {
     }
 
     public static void displayMatrixMenu() {
-        Matrices.main(null);
+        MatrixOutput.main(null);
         new Scanner(System.in).nextLine();
         displayMainMenu();
     }
