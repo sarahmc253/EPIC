@@ -89,7 +89,7 @@ public class Main {
     }
 
     public static void displayStatisticsMenu() {
-        Calculator.main(null);
+        AveragesCalculator.main(null);
         new Scanner(System.in).nextLine();
         displayMainMenu();
     }
